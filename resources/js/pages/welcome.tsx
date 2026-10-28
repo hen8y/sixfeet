@@ -425,7 +425,6 @@ export default function Welcome() {
     const [cityError, setCityError] = useState<string | null>(null);
     const [detail, setDetail] = useState<Detail | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [headerHidden, setHeaderHidden] = useState(false);
     const header = useRef<HTMLElement>(null);
     const cityInput = useRef<HTMLInputElement>(null);
     const searchSection = useRef<HTMLElement>(null);
@@ -493,25 +492,6 @@ export default function Welcome() {
         home.addEventListener('click', onClick);
 
         return () => home.removeEventListener('click', onClick);
-    }, []);
-
-    useEffect(() => {
-        let lastY = window.scrollY;
-
-        const onScroll = () => {
-            const y = window.scrollY;
-
-            if (Math.abs(y - lastY) < 8) {
-                return;
-            }
-
-            setHeaderHidden(y > lastY && y > 160);
-            lastY = y;
-        };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
     useEffect(() => {
@@ -619,11 +599,7 @@ export default function Welcome() {
                         <ArrowUpRight aria-hidden="true" />
                     </button>
                 </div>
-                <header
-                    className="sf-header"
-                    ref={header}
-                    data-hidden={headerHidden && !menuOpen}
-                >
+                <header className="sf-header" ref={header}>
                     <a
                         className="sf-logo"
                         href="#sf-start"
@@ -701,7 +677,7 @@ export default function Welcome() {
                             type="button"
                             onClick={scrollToSearch}
                         >
-                            Start planning <ArrowRight aria-hidden="true" />
+                            Start planning
                         </button>
                         <button
                             className="sf-menu-toggle"

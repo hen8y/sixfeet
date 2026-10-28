@@ -32,14 +32,13 @@
     --sf-focus: #4c5c46;
     --sf-ring: color-mix(in oklab, var(--sf-focus) 28%, transparent);
     --sf-danger: #9a3b26;
-    --sf-danger-soft: #f6e6df;
     --sf-radius: 8px;
     --sf-radius-lg: 12px;
     --sf-shadow-pop: 0 16px 36px -18px rgb(41 44 40 / 0.35);
     --sf-max: 1240px;
     --sf-gutter: clamp(20px, 5vw, 64px);
     --sf-inline: max(var(--sf-gutter), calc((100% - var(--sf-max)) / 2));
-    --sf-section-y: clamp(44px, 6vw, 80px);
+    --sf-section-y: clamp(64px, 8.5vw, 120px);
     --sf-serif: 'Newsreader', Georgia, serif;
 }
 
@@ -279,7 +278,6 @@ html {
     border-bottom: 1px solid var(--sf-dark-line);
     background: var(--sf-ink);
     color: var(--sf-on-dark);
-    transition: transform 0.25s ease;
 }
 #sf-home .sf-logo {
     display: inline-flex;
@@ -383,25 +381,20 @@ html {
 #sf-home .sf-header-plan {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    min-height: 42px;
-    padding: 0 16px;
-    border: 1px solid var(--sf-paper);
-    border-radius: 999px;
+    min-height: 40px;
+    margin-left: 6px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: var(--sf-radius);
     background: var(--sf-paper);
     color: var(--sf-ink);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
     transition: background 0.15s;
 }
 #sf-home .sf-header-plan:hover {
     background: var(--sf-on-dark-muted);
-}
-#sf-home .sf-header-plan svg {
-    width: 15px;
-    height: 15px;
-    color: var(--sf-ink);
 }
 #sf-home .sf-menu-toggle,
 #sf-home .sf-mobile-menu {
@@ -638,8 +631,8 @@ html {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
     align-items: center;
-    gap: clamp(40px, 6vw, 96px);
-    padding: clamp(40px, 6vw, 72px) var(--sf-inline);
+    gap: clamp(48px, 6vw, 96px);
+    padding: clamp(56px, 8vw, 112px) var(--sf-inline);
 }
 #sf-home h1 {
     margin-bottom: 22px;
@@ -701,7 +694,7 @@ html {
         0 24px 56px -28px rgb(74 62 39 / 0.3);
 }
 #sf-home .sf-search-heading {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 #sf-home .sf-search-heading h2 {
     font-family: var(--sf-serif);
@@ -718,7 +711,7 @@ html {
 #sf-home form {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 24px 20px;
 }
 /* Service and place sit side by side once the card is wide enough. */
 @container (min-width: 600px) {
@@ -810,23 +803,19 @@ html {
 }
 #sf-home .sf-field-error {
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
+    align-items: center;
+    gap: 6px;
     margin-top: 8px;
-    padding: 9px 12px;
-    border-radius: var(--sf-radius);
-    background: var(--sf-danger-soft);
     color: var(--sf-danger);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
     line-height: 1.4;
-    animation: sf-error-in 0.2s ease-out;
+    animation: sf-error-in 0.18s ease-out;
 }
 #sf-home .sf-field-error svg {
     flex: none;
-    width: 16px;
-    height: 16px;
-    margin-top: 1px;
+    width: 14px;
+    height: 14px;
 }
 @keyframes sf-error-in {
     from {
@@ -914,8 +903,8 @@ html {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin: 24px calc(-1 * clamp(20px, 2.4vw, 30px)) 0;
-    padding: 13px 20px;
+    margin: 28px calc(-1 * clamp(20px, 2.4vw, 30px)) 0;
+    padding: 15px 20px;
     border-top: 1px solid var(--sf-line);
     border-radius: 0 0 var(--sf-radius-lg) var(--sf-radius-lg);
     background: var(--sf-warm);
@@ -945,7 +934,7 @@ html {
 }
 #sf-home .sf-section-heading {
     max-width: 760px;
-    margin: 0 auto clamp(26px, 3vw, 36px);
+    margin: 0 auto clamp(36px, 4.5vw, 56px);
     text-align: center;
 }
 #sf-home .sf-section-heading > p {
@@ -963,7 +952,7 @@ html {
 #sf-home .sf-service-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    gap: 20px;
 }
 #sf-home .sf-service-card {
     display: flex;
@@ -1299,7 +1288,7 @@ html {
     display: flex;
     align-items: center;
     gap: 24px;
-    padding: clamp(28px, 4vw, 44px) var(--sf-inline);
+    padding: clamp(40px, 5vw, 64px) var(--sf-inline);
     border-top: 1px solid #ffffff18;
     background: var(--sf-ink);
     color: var(--sf-on-dark);
@@ -1451,9 +1440,6 @@ html {
     }
     #sf-home .sf-mobile-menu {
         display: block;
-    }
-    #sf-home .sf-header[data-hidden='true'] {
-        transform: translateY(-100%);
     }
     #sf-home .sf-service-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
