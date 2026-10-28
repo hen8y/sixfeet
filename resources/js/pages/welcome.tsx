@@ -212,6 +212,21 @@ const steps = [
     },
 ];
 
+/** A line-drawn memorial candle whose flame flickers softly. Purely decorative. */
+function HeroCandle() {
+    return (
+        <svg className="sf-hero-candle" viewBox="0 0 80 200" aria-hidden="true">
+            <path
+                className="sf-candle-flame"
+                d="M40 70 C32 60 33 48 40 36 C47 48 48 60 40 70 Z"
+            />
+            <line x1="40" y1="70" x2="40" y2="80" />
+            <rect x="26" y="80" width="28" height="120" rx="2" />
+            <path d="M26 92 C32 96 36 94 40 98" />
+        </svg>
+    );
+}
+
 function Flag({ country }: { country: Country }) {
     const [left, middle, right] = countries[country].flag;
 
@@ -580,7 +595,7 @@ export default function Welcome() {
                     crossOrigin="anonymous"
                 />
                 <link
-                    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Poppins:wght@400;500;600;700&display=swap"
+                    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap"
                     rel="stylesheet"
                 />
                 <meta
@@ -780,6 +795,7 @@ export default function Welcome() {
                         aria-labelledby="sf-hero-title"
                     >
                         <div className="sf-hero-copy">
+                            <HeroCandle />
                             <h1 id="sf-hero-title">
                                 A thoughtful farewell,
                                 <br />

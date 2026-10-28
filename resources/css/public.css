@@ -39,7 +39,7 @@
     --sf-gutter: clamp(20px, 5vw, 64px);
     --sf-inline: max(var(--sf-gutter), calc((100% - var(--sf-max)) / 2));
     --sf-section-y: clamp(64px, 8.5vw, 120px);
-    --sf-serif: 'Newsreader', Georgia, serif;
+    --sf-serif: 'Instrument Serif', Georgia, serif;
 }
 
 /*
@@ -286,7 +286,7 @@ html {
     color: var(--sf-on-dark);
     font-family: var(--sf-serif);
     font-size: 29px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1;
     white-space: nowrap;
 }
@@ -299,7 +299,7 @@ html {
     border-radius: 3px;
     background: var(--sf-gold-dark);
     color: var(--sf-on-dark);
-    font: 500 22px var(--sf-serif);
+    font: 400 22px var(--sf-serif);
 }
 #sf-home .sf-desktop-nav {
     position: absolute;
@@ -627,20 +627,25 @@ html {
 
 /* ------------------------------------------------------------ Hero */
 
+/* The hero fills the rest of the first screen. The offset is the height of the
+   top bar, header and assurance band above it at each breakpoint. */
 #sf-home .sf-hero {
+    --sf-hero-offset: 196px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
+    align-content: center;
     align-items: center;
+    min-height: clamp(680px, calc(100svh - var(--sf-hero-offset)), 1000px);
     gap: clamp(48px, 6vw, 96px);
     padding: clamp(56px, 8vw, 112px) var(--sf-inline);
 }
 #sf-home h1 {
     margin-bottom: 22px;
     font-family: var(--sf-serif);
-    font-size: clamp(38px, 1rem + 3.4vw, 64px);
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-size: clamp(42px, 1rem + 3.9vw, 72px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
     text-wrap: balance;
 }
 #sf-home h1 em,
@@ -680,6 +685,46 @@ html {
     color: var(--sf-heading-soft);
 }
 
+/* A line-drawn candle at the foot of the introduction; only its flame moves. */
+#sf-home .sf-hero-copy {
+    position: relative;
+}
+#sf-home .sf-hero-candle {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 84px;
+    height: 210px;
+    fill: none;
+    stroke: var(--sf-gold-dark);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+#sf-home .sf-candle-flame {
+    fill: color-mix(in oklab, var(--sf-gold) 60%, var(--sf-paper));
+    stroke-width: 1.2;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: sf-candle-flicker 2.4s ease-in-out infinite;
+}
+@keyframes sf-candle-flicker {
+    0%,
+    100% {
+        transform: scale(1, 1) rotate(0deg);
+    }
+    25% {
+        transform: scale(0.94, 1.06) rotate(-2deg);
+    }
+    50% {
+        transform: scale(1.03, 0.95) rotate(1.5deg);
+    }
+    75% {
+        transform: scale(0.97, 1.04) rotate(-1deg);
+    }
+}
+
 /* --------------------------------------------------------- Planner */
 
 #sf-home .sf-find {
@@ -699,7 +744,7 @@ html {
 #sf-home .sf-search-heading h2 {
     font-family: var(--sf-serif);
     font-size: clamp(26px, 1.2rem + 0.8vw, 31px);
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.2;
 }
 #sf-home .sf-search-heading > span {
@@ -926,10 +971,10 @@ html {
 }
 #sf-home .sf-section h2 {
     font-family: var(--sf-serif);
-    font-size: clamp(28px, 1.1rem + 1.8vw, 42px);
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+    font-size: clamp(32px, 1.1rem + 2.2vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0;
     text-wrap: balance;
 }
 #sf-home .sf-section-heading {
@@ -992,7 +1037,7 @@ html {
 #sf-home .sf-service-card h3 {
     font-family: var(--sf-serif);
     font-size: clamp(21px, 1.1rem + 0.4vw, 24px);
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.25;
 }
 #sf-home .sf-service-card p {
@@ -1121,7 +1166,7 @@ html {
     margin: 14px 0 10px;
     font-family: var(--sf-serif);
     font-size: clamp(25px, 1.2rem + 0.6vw, 29px);
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.2;
 }
 #sf-home .sf-package-card > p {
@@ -1192,7 +1237,7 @@ html {
     margin-top: 16px;
     font-family: var(--sf-serif);
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.35;
 }
 #sf-home .sf-steps p {
@@ -1246,7 +1291,7 @@ html {
     font-family: var(--sf-serif);
     font-size: 17px;
     font-style: italic;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.55;
 }
 #sf-home .sf-review-grid footer {
@@ -1274,7 +1319,7 @@ html {
     color: var(--sf-on-dark);
     font-family: var(--sf-serif);
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
 }
 #sf-home .sf-review-grid footer strong + span {
     display: block;
@@ -1304,7 +1349,7 @@ html {
 #sf-home .sf-help-band h2 {
     font-family: var(--sf-serif);
     font-size: clamp(24px, 1.1rem + 1vw, 31px);
-    font-weight: 500;
+    font-weight: 400;
 }
 #sf-home .sf-help-band p {
     margin-top: 6px;
@@ -1473,6 +1518,13 @@ html {
     #sf-home .sf-hero-copy > p {
         margin-inline: auto;
     }
+    #sf-home .sf-hero-candle {
+        position: static;
+        display: block;
+        width: 40px;
+        height: 100px;
+        margin: 0 auto 20px;
+    }
     #sf-home .sf-hero-actions,
     #sf-home .sf-hero-notes {
         justify-content: center;
@@ -1486,6 +1538,9 @@ html {
 
 /* Narrow tablets: the band keeps its promises but drops the detail line. */
 @media (max-width: 880px) {
+    #sf-home .sf-hero {
+        --sf-hero-offset: 171px;
+    }
     #sf-home .sf-assurance {
         padding-block: 14px;
     }
@@ -1596,6 +1651,9 @@ html {
 
 /* Small tablets and phones: a lean header and a left-aligned, full-width hero. */
 @media (max-width: 760px) {
+    #sf-home .sf-hero {
+        --sf-hero-offset: 118px;
+    }
     #sf-home .sf-top,
     #sf-home .sf-header-plan {
         display: none;
@@ -1615,6 +1673,9 @@ html {
     }
     #sf-home .sf-hero-copy > p {
         margin-inline: 0;
+    }
+    #sf-home .sf-hero-candle {
+        margin-left: 0;
     }
     #sf-home .sf-hero-actions,
     #sf-home .sf-hero-notes {
