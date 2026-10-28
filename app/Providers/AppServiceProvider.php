@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +25,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureLocalTunnels();
+    }
+
+    /**
+     * Trust forwarded headers locally so HTTPS tunnels generate HTTPS asset URLs.
+     */
+    protected function configureLocalTunnels(): void
+    {
+        if (app()->isLocal()) {
+            TrustProxies::at('*');
+        }
     }
 
     /**

@@ -42,6 +42,19 @@ declare global {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+/**
+ * Cities and named areas. `(regions)` also returns postal codes, and it
+ * leaves out neighbourhoods such as Ajah and Victoria Island. Autocomplete
+ * accepts at most five primary types.
+ */
+const areaTypes = [
+    'locality',
+    'sublocality',
+    'neighborhood',
+    'colloquial_area',
+    'administrative_area_level_2',
+];
+
 export const hasGooglePlaces = Boolean(apiKey);
 
 let placesLibrary: Promise<PlacesLibrary> | null = null;
@@ -105,7 +118,7 @@ export async function searchPlaces(
         await AutocompleteSuggestion.fetchAutocompleteSuggestions({
             input,
             includedRegionCodes: [options.regionCode],
-            includedPrimaryTypes: ['(regions)'],
+            includedPrimaryTypes: areaTypes,
             language: 'en',
             sessionToken: options.session,
         });

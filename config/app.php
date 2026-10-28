@@ -69,6 +69,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default Country
+    |--------------------------------------------------------------------------
+    |
+    | The ISO 3166-1 alpha-2 code of the market shown to visitors who have not
+    | chosen a country and whose location does not match an active country.
+    |
+    */
+
+    'default_country' => env('APP_DEFAULT_COUNTRY', 'NG'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |

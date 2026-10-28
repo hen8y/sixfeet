@@ -39,7 +39,7 @@
     --sf-gutter: clamp(20px, 5vw, 64px);
     --sf-inline: max(var(--sf-gutter), calc((100% - var(--sf-max)) / 2));
     --sf-section-y: clamp(64px, 8.5vw, 120px);
-    --sf-serif: 'Instrument Serif', Georgia, serif;
+    --sf-serif: 'Playfair Display', Georgia, serif;
 }
 
 /*
@@ -135,7 +135,15 @@ html {
     border-radius: 4px;
 }
 /* Charcoal surfaces need a light ring to stay visible. */
-#sf-home :is(.sf-top, .sf-header, .sf-reviews, .sf-help-band, .sf-footer),
+#sf-home
+    :is(
+        .sf-top,
+        .sf-header,
+        .sf-fund-hero,
+        .sf-reviews,
+        .sf-help-band,
+        .sf-footer
+    ),
 #sf-home .sf-service-card:first-child {
     --sf-focus: var(--sf-on-dark-muted);
     --sf-ring: color-mix(in oklab, var(--sf-on-dark) 30%, transparent);
@@ -255,6 +263,9 @@ html {
     fill: color-mix(in oklab, var(--sf-gold) 24%, transparent);
     stroke: var(--sf-gold);
 }
+#sf-home .sf-line-art .sf-art-stroke {
+    stroke: var(--sf-gold);
+}
 
 /* -------------------------------------------------------- Top bar */
 
@@ -327,15 +338,17 @@ html {
     color: var(--sf-on-dark);
     font: 400 22px var(--sf-serif);
 }
+/* Links follow the logo; the account controls are pushed to the far side. */
 #sf-home .sf-desktop-nav {
-    position: absolute;
-    top: 50%;
-    left: 50%;
     display: flex;
     gap: 2px;
-    transform: translate(-50%, -50%);
+    margin-left: clamp(8px, 2vw, 32px);
     font-size: 14px;
     font-weight: 500;
+    white-space: nowrap;
+}
+#sf-home .sf-account {
+    margin-left: auto;
 }
 #sf-home .sf-desktop-nav a {
     display: inline-flex;
@@ -348,7 +361,8 @@ html {
         background 0.15s,
         color 0.15s;
 }
-#sf-home .sf-desktop-nav a:hover {
+#sf-home .sf-desktop-nav a:hover,
+#sf-home .sf-desktop-nav a[aria-current='page'] {
     background: #ffffff12;
     color: var(--sf-on-dark);
 }
@@ -389,6 +403,19 @@ html {
 #sf-home .sf-country .sf-currency-symbol {
     color: var(--sf-on-dark-muted);
     font-weight: 400;
+}
+/* With one country there is nothing to switch to, so the trigger becomes a badge. */
+#sf-home .sf-account span.sf-country {
+    display: inline-flex;
+    align-items: center;
+}
+#sf-home .sf-account span.sf-country:hover {
+    background: transparent;
+}
+#sf-home .sf-country-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 #sf-home .sf-family-link {
     display: inline-flex;
@@ -528,11 +555,17 @@ html {
 #sf-home .sf-mobile-menu[data-open='true'] nav a:nth-child(4) {
     transition-delay: 160ms;
 }
-#sf-home .sf-mobile-menu[data-open='true'] .sf-mobile-actions {
+#sf-home .sf-mobile-menu[data-open='true'] nav a:nth-child(5) {
     transition-delay: 200ms;
 }
-#sf-home .sf-mobile-menu[data-open='true'] .sf-mobile-help {
+#sf-home .sf-mobile-menu[data-open='true'] nav a:nth-child(6) {
     transition-delay: 240ms;
+}
+#sf-home .sf-mobile-menu[data-open='true'] .sf-mobile-actions {
+    transition-delay: 280ms;
+}
+#sf-home .sf-mobile-menu[data-open='true'] .sf-mobile-help {
+    transition-delay: 320ms;
 }
 #sf-home .sf-mobile-menu nav {
     display: flex;
@@ -716,8 +749,8 @@ html {
     }
 }
 
-/* Sections below the hero fade up as they scroll into view (set up in welcome.tsx). */
-#sf-home[data-reveal] main > section:not(.sf-hero) {
+/* Sections below the hero fade up as they scroll into view (set up in use-public-page.ts). */
+#sf-home[data-reveal] main > section:not(:first-of-type) {
     opacity: 0;
     transform: translateY(32px);
     transition:
@@ -746,10 +779,10 @@ html {
 #sf-home h1 {
     margin-bottom: 22px;
     font-family: var(--sf-serif);
-    font-size: clamp(42px, 1rem + 3.9vw, 72px);
+    font-size: clamp(36px, 1rem + 3vw, 58px);
     font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.005em;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     text-wrap: balance;
 }
 #sf-home h1 em,
@@ -1247,7 +1280,7 @@ html {
 }
 #sf-home .sf-city-cards {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--sf-count, 2), minmax(0, 1fr));
     gap: 20px;
 }
 #sf-home .sf-city-card {
@@ -1626,7 +1659,7 @@ html {
 }
 #sf-home .sf-desk-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--sf-count, 3), minmax(0, 1fr));
     gap: 20px;
 }
 #sf-home .sf-desk {
@@ -1919,6 +1952,550 @@ html {
     font-size: 13px;
 }
 
+/* ------------------------------------------------------- Fundraising */
+
+/* Hero: the pitch on charcoal beside an example fundraiser card. */
+#sf-home .sf-fund-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 440px);
+    align-items: center;
+    gap: clamp(36px, 6vw, 96px);
+    padding: clamp(56px, 8vw, 112px) var(--sf-inline);
+    background: radial-gradient(
+        120% 90% at 85% 0%,
+        #3d4338 0%,
+        var(--sf-ink) 62%
+    );
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-fund-hero h1 {
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-fund-hero h1 em {
+    color: color-mix(in oklab, var(--sf-gold) 75%, var(--sf-paper));
+    font-style: italic;
+}
+#sf-home .sf-fund-hero-copy > p {
+    max-width: 540px;
+    color: var(--sf-on-dark-muted);
+    font-size: clamp(15px, 0.9rem + 0.2vw, 17px);
+    line-height: 1.85;
+}
+
+/* Example fundraiser card. */
+#sf-home .sf-fund-example {
+    position: relative;
+    margin: 0;
+    padding: 30px 26px 24px;
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-paper);
+    color: var(--sf-ink);
+    box-shadow: 0 32px 64px -32px rgb(0 0 0 / 0.65);
+}
+#sf-home .sf-fund-tag {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: var(--sf-gold-dark);
+    color: var(--sf-on-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+#sf-home .sf-fund-example-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--sf-line);
+}
+#sf-home .sf-fund-example-head .sf-line-art {
+    width: 48px;
+    height: 48px;
+}
+#sf-home .sf-fund-example-head strong {
+    display: block;
+    font-family: var(--sf-serif);
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+#sf-home .sf-fund-example-head strong + span {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    margin-top: 4px;
+    color: var(--sf-sub);
+    font-size: 13px;
+}
+#sf-home .sf-fund-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--sf-gold-dark);
+    font-weight: 500;
+}
+#sf-home .sf-fund-verified svg {
+    width: 15px;
+    height: 15px;
+    color: currentColor;
+}
+#sf-home .sf-fund-amount {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    margin-top: 20px;
+}
+#sf-home .sf-fund-amount strong {
+    font-family: var(--sf-serif);
+    font-size: clamp(32px, 1.4rem + 1vw, 38px);
+    font-weight: 400;
+    line-height: 1.1;
+}
+#sf-home .sf-fund-amount span {
+    color: var(--sf-sub);
+    font-size: 14px;
+}
+#sf-home .sf-progress {
+    height: 8px;
+    margin-top: 14px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--sf-soft);
+}
+#sf-home .sf-progress span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--sf-gold-dark), var(--sf-gold));
+}
+#sf-home .sf-fund-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 22px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--sf-line);
+}
+#sf-home .sf-fund-stats dt {
+    color: var(--sf-sub);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+#sf-home .sf-fund-stats dd {
+    margin: 4px 0 0;
+    font-family: var(--sf-serif);
+    font-size: 21px;
+    line-height: 1.2;
+}
+
+/* Features: six cards, each with its own line drawing. */
+#sf-home .sf-fund-features {
+    background: linear-gradient(var(--sf-warm), var(--sf-soft));
+}
+#sf-home .sf-fund-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+#sf-home .sf-fund-feature {
+    min-width: 0;
+    padding: clamp(22px, 2.2vw, 28px);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-paper);
+}
+#sf-home .sf-fund-feature .sf-line-art {
+    width: 52px;
+    height: 52px;
+}
+#sf-home .sf-fund-feature h3 {
+    margin-top: 18px;
+    font-family: var(--sf-serif);
+    font-size: clamp(22px, 1.1rem + 0.4vw, 25px);
+    font-weight: 400;
+    line-height: 1.25;
+}
+#sf-home .sf-fund-feature p {
+    margin-top: 8px;
+    color: var(--sf-sub);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* Where the money goes: promises beside an example spending report. */
+#sf-home .sf-fund-flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(36px, 6vw, 96px);
+    background: linear-gradient(var(--sf-bg), var(--sf-paper) var(--sf-blend));
+}
+#sf-home .sf-fund-flow h2 em {
+    color: var(--sf-heading-soft);
+    font-style: normal;
+}
+#sf-home .sf-fund-flow-copy > p {
+    max-width: 460px;
+    margin-top: 18px;
+    color: var(--sf-sub);
+    font-size: 16px;
+    line-height: 1.8;
+}
+#sf-home .sf-fund-flow-copy ul {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+}
+#sf-home .sf-fund-flow-copy li {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+#sf-home .sf-fund-flow-copy li svg {
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
+    color: var(--sf-gold-dark);
+}
+#sf-home .sf-fund-report {
+    margin: 0;
+    padding: clamp(22px, 2.4vw, 30px);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-paper);
+    box-shadow: 0 20px 44px -30px rgb(65 55 32 / 0.45);
+}
+#sf-home .sf-fund-report header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--sf-line);
+}
+#sf-home .sf-fund-report header .sf-line-art {
+    width: 44px;
+    height: 44px;
+}
+#sf-home .sf-fund-report header strong {
+    display: block;
+    font-family: var(--sf-serif);
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+#sf-home .sf-fund-report header strong + span {
+    display: block;
+    color: var(--sf-gold-dark);
+    font-size: 12px;
+    font-weight: 500;
+}
+#sf-home .sf-fund-report ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#sf-home .sf-fund-report li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid
+        color-mix(in oklab, var(--sf-line) 60%, transparent);
+}
+#sf-home .sf-fund-report li strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+}
+#sf-home .sf-fund-report li strong + span {
+    display: block;
+    color: var(--sf-sub);
+    font-size: 13px;
+}
+#sf-home .sf-report-amount {
+    flex-shrink: 0;
+    font-family: var(--sf-serif);
+    font-size: 19px;
+}
+#sf-home .sf-fund-report dl {
+    margin: 16px 0 0;
+}
+#sf-home .sf-fund-report dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 5px 0;
+    color: var(--sf-sub);
+    font-size: 14px;
+}
+#sf-home .sf-fund-report dd {
+    margin: 0;
+}
+#sf-home .sf-fund-report .sf-report-total {
+    margin-top: 10px;
+    padding: 14px 16px;
+    border-radius: var(--sf-radius);
+    background: var(--sf-warm);
+    color: var(--sf-ink);
+    font-weight: 500;
+}
+#sf-home .sf-report-total dd {
+    font-family: var(--sf-serif);
+    font-size: 21px;
+    font-weight: 400;
+}
+
+/* ------------------------------------------------------- Repatriation */
+
+/* Example case: the route and its milestones. */
+#sf-home .sf-route-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--sf-line);
+}
+#sf-home .sf-route-head > span:last-child {
+    text-align: right;
+}
+#sf-home .sf-route-head small {
+    display: block;
+    color: var(--sf-sub);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+#sf-home .sf-route-head strong {
+    display: block;
+    font-family: var(--sf-serif);
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+#sf-home .sf-route-line {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 24px;
+}
+#sf-home .sf-route-line::before {
+    position: absolute;
+    inset: 50% 0 auto;
+    border-top: 1px dashed var(--sf-control-border);
+    content: '';
+}
+#sf-home .sf-route-line svg {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    box-sizing: content-box;
+    background: var(--sf-paper);
+    color: var(--sf-gold-dark);
+}
+#sf-home .sf-route-person {
+    margin-top: 14px;
+    color: var(--sf-sub);
+    font-size: 13px;
+}
+#sf-home .sf-route-steps {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+#sf-home .sf-route-steps li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+    padding-bottom: 14px;
+}
+#sf-home .sf-route-steps li:last-child {
+    padding-bottom: 0;
+}
+/* The thread joining each milestone to the next. */
+#sf-home .sf-route-steps li:not(:last-child)::before {
+    position: absolute;
+    top: 24px;
+    bottom: 2px;
+    left: 10.5px;
+    border-left: 1px solid var(--sf-line);
+    content: '';
+}
+#sf-home .sf-route-steps li[data-state='done']::before {
+    border-left-color: var(--sf-gold);
+}
+#sf-home .sf-route-dot {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--sf-control-border);
+    border-radius: 999px;
+    background: var(--sf-paper);
+}
+#sf-home .sf-route-dot svg {
+    width: 13px;
+    height: 13px;
+    color: var(--sf-on-dark);
+}
+#sf-home [data-state='done'] .sf-route-dot {
+    border-color: var(--sf-gold-dark);
+    background: var(--sf-gold-dark);
+    color: var(--sf-on-dark);
+}
+#sf-home [data-state='current'] .sf-route-dot {
+    border: 6px solid var(--sf-gold);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--sf-gold) 18%, transparent);
+}
+#sf-home .sf-route-steps strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+#sf-home .sf-route-steps strong + span {
+    display: block;
+    color: var(--sf-sub);
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+#sf-home [data-state='next'] strong {
+    color: var(--sf-sub);
+}
+#sf-home .sf-route-steps em {
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: var(--sf-warm);
+    color: var(--sf-gold-dark);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Both directions: two wide cards side by side. */
+#sf-home .sf-rep-directions {
+    background: linear-gradient(var(--sf-paper), var(--sf-warm));
+}
+#sf-home .sf-rep-direction-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+#sf-home .sf-rep-direction {
+    min-width: 0;
+    padding: clamp(24px, 3vw, 36px);
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-paper);
+}
+#sf-home .sf-rep-direction .sf-line-art {
+    width: 56px;
+    height: 56px;
+}
+#sf-home .sf-rep-direction h3 {
+    margin-top: 18px;
+    font-family: var(--sf-serif);
+    font-size: clamp(25px, 1.2rem + 0.6vw, 30px);
+    font-weight: 400;
+    line-height: 1.2;
+}
+#sf-home .sf-rep-direction > p {
+    margin-top: 8px;
+    color: var(--sf-sub);
+    font-size: 15px;
+    line-height: 1.75;
+}
+#sf-home .sf-rep-direction ul,
+#sf-home .sf-rep-doc-panel ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 22px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--sf-line);
+    list-style: none;
+}
+#sf-home .sf-rep-direction li,
+#sf-home .sf-rep-doc-panel li {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+#sf-home .sf-rep-direction li svg,
+#sf-home .sf-rep-doc-panel li svg {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
+    color: var(--sf-gold-dark);
+}
+
+/* Documents: what the family brings beside what the partner arranges. */
+#sf-home .sf-rep-documents {
+    background: var(--sf-bg);
+}
+#sf-home .sf-rep-doc-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1040px;
+    margin: 0 auto;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-paper);
+}
+#sf-home .sf-rep-doc-panel > div {
+    min-width: 0;
+    padding: clamp(24px, 3vw, 36px);
+}
+#sf-home .sf-rep-doc-panel > div + div {
+    border-left: 1px solid var(--sf-line);
+}
+#sf-home .sf-rep-doc-panel h3 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--sf-serif);
+    font-size: clamp(22px, 1.1rem + 0.4vw, 25px);
+    font-weight: 400;
+    line-height: 1.25;
+}
+#sf-home .sf-rep-doc-panel h3 .sf-line-art {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+}
+
+/* Quote card: ticks in place of amounts. */
+#sf-home .sf-quote-tick {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    color: var(--sf-gold-dark);
+}
+
 /* Phone dock: a pinned way back to the planner once it has scrolled away. Phones only. */
 #sf-home .sf-dock {
     display: none;
@@ -2024,6 +2601,13 @@ html {
         width: 100%;
         max-width: 680px;
         text-align: left;
+    }
+    #sf-home .sf-fund-hero {
+        grid-template-columns: 1fr;
+    }
+    #sf-home .sf-fund-example {
+        width: 100%;
+        max-width: 520px;
     }
     /* The city introduction moves above the country cards. */
     #sf-home .sf-city-browse {
@@ -2162,8 +2746,20 @@ html {
         margin-inline: auto;
     }
     #sf-home .sf-guides,
-    #sf-home .sf-provider-panel {
+    #sf-home .sf-provider-panel,
+    #sf-home .sf-fund-flow {
         grid-template-columns: 1fr;
+    }
+    #sf-home .sf-fund-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #sf-home .sf-rep-direction-grid,
+    #sf-home .sf-rep-doc-panel {
+        grid-template-columns: 1fr;
+    }
+    #sf-home .sf-rep-doc-panel > div + div {
+        border-top: 1px solid var(--sf-line);
+        border-left: 0;
     }
     #sf-home .sf-provider-panel ul {
         padding: 24px 0 0;
@@ -2226,7 +2822,8 @@ html {
     #sf-home .sf-help-flower {
         display: none;
     }
-    #sf-home .sf-city-cards {
+    #sf-home .sf-city-cards,
+    #sf-home .sf-fund-grid {
         grid-template-columns: 1fr;
     }
     #sf-home .sf-dock {

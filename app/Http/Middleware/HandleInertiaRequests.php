@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\Countries\ResolveVisitorCountry;
+use App\Http\Resources\CountryResource;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,6 +44,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'country' => fn () => CountryResource::make(
+                app(ResolveVisitorCountry::class)->handle($request)->load('cities'),
+            )->resolve($request),
+            'countries' => fn () => CountryResource::collection(Country::active()->with('cities')->get())->resolve($request),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }
