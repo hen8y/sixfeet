@@ -628,9 +628,12 @@ html {
 /* ------------------------------------------------------------ Hero */
 
 /* The hero fills the rest of the first screen. The offset is the height of the
-   top bar, header and assurance band above it at each breakpoint. */
+   top bar, header and assurance band above it at each breakpoint.
+   A softly blurred funeral hall photo sits behind it under a thin charcoal layer, so the copy is light. */
 #sf-home .sf-hero {
     --sf-hero-offset: 196px;
+    position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
     align-content: center;
@@ -638,6 +641,78 @@ html {
     min-height: clamp(680px, calc(100svh - var(--sf-hero-offset)), 1000px);
     gap: clamp(48px, 6vw, 96px);
     padding: clamp(56px, 8vw, 112px) var(--sf-inline);
+    background: var(--sf-ink);
+    color: var(--sf-on-dark);
+}
+/* The photo settles into place on load, then the copy and planner rise in after it. */
+#sf-home .sf-hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+}
+#sf-home .sf-hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(3px);
+    animation: sf-hero-photo-in 2.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+#sf-home .sf-hero-copy > *,
+#sf-home .sf-planner-wrap {
+    animation: sf-rise-in 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+#sf-home .sf-hero-copy > :nth-child(2) {
+    animation-delay: 0.15s;
+}
+#sf-home .sf-hero-copy > :nth-child(3) {
+    animation-delay: 0.3s;
+}
+#sf-home .sf-hero-copy > :nth-child(n + 4) {
+    animation-delay: 0.45s;
+}
+#sf-home .sf-planner-wrap {
+    animation-delay: 0.5s;
+}
+@keyframes sf-hero-photo-in {
+    from {
+        opacity: 0;
+        transform: scale(1.08);
+    }
+}
+@keyframes sf-rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+}
+
+/* Sections below the hero fade up as they scroll into view (set up in welcome.tsx). */
+#sf-home[data-reveal] main > section:not(.sf-hero) {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+#sf-home[data-reveal] main > section[data-visible] {
+    opacity: 1;
+    transform: none;
+}
+#sf-home .sf-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(24 27 23 / 0.8);
+}
+#sf-home .sf-hero-copy {
+    --sf-focus: var(--sf-on-dark-muted);
+    --sf-ring: color-mix(in oklab, var(--sf-on-dark) 30%, transparent);
+}
+#sf-home .sf-hero h1,
+#sf-home .sf-hero h1 em {
+    color: var(--sf-on-dark);
 }
 #sf-home h1 {
     margin-bottom: 22px;
@@ -655,7 +730,7 @@ html {
 }
 #sf-home .sf-hero-copy > p {
     max-width: 520px;
-    color: var(--sf-sub);
+    color: var(--sf-on-dark);
     font-size: clamp(15px, 0.9rem + 0.2vw, 17px);
     line-height: 1.85;
 }
@@ -671,7 +746,7 @@ html {
     flex-wrap: wrap;
     gap: 10px 22px;
     margin-top: 26px;
-    color: var(--sf-sub);
+    color: var(--sf-on-dark);
     font-size: 13px;
 }
 #sf-home .sf-hero-notes span {
@@ -682,7 +757,18 @@ html {
 #sf-home .sf-hero-notes svg {
     width: 14px;
     height: 14px;
-    color: var(--sf-heading-soft);
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-hero-actions .sf-outline {
+    border: 1px solid rgb(255 255 255 / 0.5);
+    background: rgb(24 27 23 / 0.25);
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-hero-actions .sf-outline:hover {
+    background: rgb(24 27 23 / 0.45);
+}
+#sf-home .sf-hero-actions .sf-outline svg {
+    color: currentColor;
 }
 
 /* A line-drawn candle at the foot of the introduction; only its flame moves. */
@@ -696,7 +782,7 @@ html {
     width: 84px;
     height: 210px;
     fill: none;
-    stroke: var(--sf-gold-dark);
+    stroke: var(--sf-on-dark);
     stroke-width: 1.4;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -729,6 +815,7 @@ html {
 
 #sf-home .sf-find {
     container-type: inline-size;
+    color: var(--sf-ink);
     margin: 0;
     padding: clamp(22px, 2.4vw, 30px) clamp(20px, 2.4vw, 30px) 0;
     border: 1px solid var(--sf-line);
@@ -967,6 +1054,7 @@ html {
 /* -------------------------------------------------------- Sections */
 
 #sf-home .sf-section {
+    --sf-blend: clamp(80px, 12vw, 180px);
     padding: var(--sf-section-y) var(--sf-inline);
 }
 #sf-home .sf-section h2 {
@@ -990,18 +1078,21 @@ html {
 }
 
 /* Services */
+/* Light sections ease out of the light section above them instead of meeting it at a hard line.
+   The dark hero and reviews keep a clean edge, since a light-to-dark fade turns muddy. */
 #sf-home .sf-services {
-    border-block: 1px solid var(--sf-line);
     background: var(--sf-warm);
 }
 #sf-home .sf-service-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
 }
 #sf-home .sf-service-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 22px;
     align-items: start;
     min-width: 0;
     padding: clamp(20px, 2vw, 26px);
@@ -1023,9 +1114,9 @@ html {
 #sf-home .sf-service-icon {
     display: grid;
     place-items: center;
+    grid-row: 1 / span 3;
     width: 44px;
     height: 44px;
-    margin-bottom: 20px;
     border-radius: var(--sf-radius);
     background: var(--sf-soft);
 }
@@ -1041,7 +1132,8 @@ html {
     line-height: 1.25;
 }
 #sf-home .sf-service-card p {
-    margin: 12px 0 24px;
+    max-width: 52ch;
+    margin: 8px 0 20px;
     color: var(--sf-sub);
     font-size: 15px;
     line-height: 1.8;
@@ -1082,7 +1174,10 @@ html {
     grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: clamp(32px, 7vw, 100px);
-    background: var(--sf-paper);
+    background: linear-gradient(
+        var(--sf-warm),
+        var(--sf-paper) var(--sf-blend)
+    );
 }
 #sf-home .sf-family-photo {
     min-width: 0;
@@ -1123,7 +1218,10 @@ html {
 
 /* Packages */
 #sf-home .sf-package-section {
-    background: var(--sf-soft);
+    background: linear-gradient(
+        var(--sf-paper),
+        var(--sf-soft) var(--sf-blend)
+    );
 }
 #sf-home .sf-package-intro {
     max-width: 640px;
@@ -1215,6 +1313,7 @@ html {
 
 /* How it works */
 #sf-home .sf-how {
+    background: linear-gradient(var(--sf-soft), var(--sf-bg) var(--sf-blend));
     text-align: center;
 }
 #sf-home .sf-steps {
@@ -1263,18 +1362,20 @@ html {
 #sf-home .sf-review-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
     margin-top: 36px;
+    border: 1px solid #ffffff18;
+    border-radius: var(--sf-radius-lg);
     text-align: left;
 }
 #sf-home .sf-review-grid blockquote {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding: 26px 24px 22px;
-    border: 1px solid #ffffff18;
-    border-radius: var(--sf-radius-lg);
+    padding: 30px 32px 26px;
     background: var(--sf-ink);
+}
+#sf-home .sf-review-grid blockquote + blockquote {
+    border-left: 1px solid #ffffff18;
 }
 #sf-home .sf-review-marks {
     display: flex;
@@ -1334,7 +1435,6 @@ html {
     align-items: center;
     gap: 24px;
     padding: clamp(40px, 5vw, 64px) var(--sf-inline);
-    border-top: 1px solid #ffffff18;
     background: var(--sf-ink);
     color: var(--sf-on-dark);
 }
@@ -1486,23 +1586,6 @@ html {
     #sf-home .sf-mobile-menu {
         display: block;
     }
-    #sf-home .sf-service-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    #sf-home .sf-service-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto 1fr auto;
-        column-gap: 18px;
-        align-items: start;
-    }
-    #sf-home .sf-service-icon {
-        grid-row: 1 / span 3;
-        margin-bottom: 0;
-    }
-    #sf-home .sf-service-card p {
-        margin: 8px 0 18px;
-    }
 }
 
 /* Small laptops and landscape tablets: the planner moves under the introduction. */
@@ -1625,11 +1708,14 @@ html {
         margin-top: 0;
         font-size: 22px;
     }
-    /* Reviews become a swipeable row. */
+    /* Reviews become a swipeable row of separate cards. */
     #sf-home .sf-review-grid {
         grid-template-columns: none;
         grid-auto-columns: min(78%, 400px);
         grid-auto-flow: column;
+        gap: 18px;
+        border: 0;
+        border-radius: 0;
         margin-inline: calc(-1 * var(--sf-inline));
         padding: 0 var(--sf-inline) 6px;
         overflow-x: auto;
@@ -1641,6 +1727,9 @@ html {
         display: none;
     }
     #sf-home .sf-review-grid blockquote {
+        padding: 26px 24px 22px;
+        border: 1px solid #ffffff18;
+        border-radius: var(--sf-radius-lg);
         scroll-snap-align: start;
     }
     #sf-home .sf-footer-main {
@@ -1761,6 +1850,7 @@ html {
     }
     #sf-home .sf-service-card {
         display: flex;
+        flex-direction: column;
     }
     #sf-home .sf-service-icon {
         margin-bottom: 16px;

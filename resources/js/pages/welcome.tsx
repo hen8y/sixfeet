@@ -510,6 +510,40 @@ export default function Welcome() {
     }, []);
 
     useEffect(() => {
+        const home = document.getElementById('sf-home');
+
+        if (
+            !home ||
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+            return;
+        }
+
+        const sections = home.querySelectorAll<HTMLElement>(
+            'main > section:not(.sf-hero)',
+        );
+        const observer = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        entry.target.setAttribute('data-visible', '');
+                        observer.unobserve(entry.target);
+                    }
+                }
+            },
+            { rootMargin: '0px 0px -12% 0px', threshold: 0.08 },
+        );
+
+        home.setAttribute('data-reveal', '');
+        sections.forEach((section) => observer.observe(section));
+
+        return () => {
+            observer.disconnect();
+            home.removeAttribute('data-reveal');
+        };
+    }, []);
+
+    useEffect(() => {
         if (!menuOpen) {
             return;
         }
@@ -794,6 +828,18 @@ export default function Welcome() {
                         id="sf-start"
                         aria-labelledby="sf-hero-title"
                     >
+                        <div className="sf-hero-media">
+                            <img
+                                className="sf-hero-photo"
+                                src="/images/hero-funeral-hall.webp"
+                                srcSet="/images/hero-funeral-hall-small.webp 800w, /images/hero-funeral-hall.webp 1500w"
+                                sizes="100vw"
+                                alt=""
+                                width="1500"
+                                height="1000"
+                                fetchPriority="high"
+                            />
+                        </div>
                         <div className="sf-hero-copy">
                             <HeroCandle />
                             <h1 id="sf-hero-title">
@@ -808,7 +854,10 @@ export default function Welcome() {
                                 and Ireland, and see the price before you book.
                             </p>
                             <div className="sf-hero-actions">
-                                <a href="#sf-services" className="sf-primary">
+                                <a
+                                    href="#sf-services"
+                                    className="sf-primary sf-light"
+                                >
                                     Explore services{' '}
                                     <ArrowRight aria-hidden="true" />
                                 </a>
