@@ -74,6 +74,11 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Lenis drives scrolling itself; native smoothing makes the two fight. */
+html.lenis {
+    scroll-behavior: auto;
+}
+
 /* ---------------------------------------------------------------- Base */
 
 #sf-home {
