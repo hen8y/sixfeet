@@ -6,7 +6,7 @@ export type FooterItem = { label: string; href?: string; onClick?: () => void };
 
 export type FooterColumn = { title: string; items: FooterItem[] };
 
-export type PublicPageName = 'home' | 'fundraising' | 'repatriation';
+export type PublicPageName = 'home' | 'fundraising' | 'repatriation' | 'guides';
 
 export type PublicNavLink = { href: string; label: string; current?: boolean };
 

@@ -1,4 +1,4 @@
-import { home, repatriation } from '@/routes';
+import { guides, home, repatriation } from '@/routes';
 import type { AccountLink, FooterColumn } from '@/types';
 
 export const footerColumnsFor = ({
@@ -31,7 +31,7 @@ export const footerColumnsFor = ({
         title: 'Families',
         items: [
             { label: 'Bring someone home', href: repatriation.url() },
-            { label: 'Help & advice', href: `${home.url()}#sf-guides` },
+            { label: 'Help & advice', href: guides.url() },
             { label: account.label, href: account.href },
             { label: 'Talk to our team', onClick: onSupport },
         ],

@@ -2501,6 +2501,73 @@ html.lenis {
     color: var(--sf-gold-dark);
 }
 
+/* ------------------------------------------------------- Help & advice */
+
+/* Hero index: every topic on one paper card beside the introduction. */
+#sf-home .sf-topic-index {
+    min-width: 0;
+    padding: clamp(20px, 2.4vw, 28px);
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-paper);
+    box-shadow: var(--sf-shadow-pop);
+    color: var(--sf-ink);
+}
+#sf-home .sf-topic-index ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#sf-home .sf-topic-index li + li {
+    border-top: 1px solid var(--sf-line);
+}
+#sf-home .sf-topic-index a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 8px;
+    border-radius: var(--sf-radius);
+    transition: background 0.15s;
+}
+#sf-home .sf-topic-index a:hover {
+    background: var(--sf-warm);
+}
+#sf-home .sf-topic-index .sf-line-art {
+    width: 36px;
+    height: 36px;
+}
+#sf-home .sf-topic-index a > span {
+    flex: 1;
+    min-width: 0;
+}
+#sf-home .sf-topic-index strong {
+    display: block;
+    font-family: var(--sf-serif);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+#sf-home .sf-topic-index strong + span {
+    display: block;
+    color: var(--sf-sub);
+    font-size: 13px;
+    line-height: 1.5;
+}
+#sf-home .sf-topic-index a > svg:last-child {
+    width: 16px;
+    height: 16px;
+    color: var(--sf-gold-dark);
+}
+
+/* Topics alternate between paper and the page background. */
+#sf-home .sf-guide-topic:nth-of-type(odd) {
+    background: var(--sf-bg);
+}
+#sf-home .sf-guide-topic .sf-guides-intro > .sf-line-art {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 18px;
+}
+
 /* Phone dock: a pinned way back to the planner once it has scrolled away. Phones only. */
 #sf-home .sf-dock {
     display: none;
@@ -2516,6 +2583,110 @@ html.lenis {
 .sf-public-dialog li {
     font-size: 16px;
     line-height: 1.8;
+}
+/* First-visit condolence prompt: a quiet drawing above two clear choices. */
+.sf-welcome-dialog {
+    justify-items: center;
+    gap: 14px;
+    padding: clamp(28px, 5vw, 40px);
+    text-align: center;
+}
+.sf-welcome-dialog [data-slot='dialog-title'] {
+    font-family: var(--sf-serif);
+    font-size: clamp(26px, 1.2rem + 1vw, 32px);
+    font-weight: 400;
+    line-height: 1.2;
+}
+.sf-welcome-dialog [data-slot='dialog-description'] {
+    max-width: 40ch;
+    color: var(--sf-sub);
+    font-size: 15px;
+}
+.sf-welcome-question {
+    max-width: 36ch;
+    color: var(--sf-ink);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.7;
+}
+.sf-condolence-art {
+    width: min(220px, 70%);
+    height: auto;
+    fill: none;
+    stroke: var(--sf-ink);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.sf-condolence-art .sf-condolence-glow {
+    fill: color-mix(in oklab, var(--sf-gold) 14%, transparent);
+    stroke: none;
+}
+.sf-condolence-art .sf-condolence-ground {
+    stroke: var(--sf-gold);
+}
+.sf-condolence-art .sf-condolence-accent {
+    fill: color-mix(in oklab, var(--sf-gold) 24%, transparent);
+    stroke: var(--sf-gold);
+}
+.sf-condolence-art .sf-candle-flame {
+    fill: color-mix(in oklab, var(--sf-gold) 60%, var(--sf-paper));
+    stroke: var(--sf-gold-dark);
+    stroke-width: 1.2;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: sf-candle-flicker 2.4s ease-in-out infinite;
+}
+.sf-welcome-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 6px;
+}
+.sf-welcome-primary,
+.sf-welcome-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 20px;
+    border-radius: var(--sf-radius);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+.sf-welcome-primary {
+    background: var(--sf-action);
+    color: var(--sf-on-dark);
+}
+.sf-welcome-primary:focus,
+.sf-welcome-secondary:focus {
+    outline: none;
+}
+.sf-welcome-primary:focus-visible,
+.sf-welcome-secondary:focus-visible {
+    box-shadow: 0 0 0 3px var(--sf-ring);
+}
+.sf-nowrap {
+    white-space: nowrap;
+}
+.sf-welcome-primary:hover {
+    background: var(--sf-action-hover);
+}
+.sf-welcome-primary svg {
+    width: 18px;
+    height: 18px;
+}
+.sf-welcome-secondary {
+    background: var(--sf-secondary);
+    color: var(--sf-action);
+}
+.sf-welcome-secondary:hover {
+    background: var(--sf-secondary-hover);
 }
 .sf-select-menu {
     border-color: var(--sf-line);
@@ -2610,7 +2781,8 @@ html.lenis {
     #sf-home .sf-fund-hero {
         grid-template-columns: 1fr;
     }
-    #sf-home .sf-fund-example {
+    #sf-home .sf-fund-example,
+    #sf-home .sf-topic-index {
         width: 100%;
         max-width: 520px;
     }
@@ -2965,5 +3137,8 @@ html.lenis {
         transition: none !important;
         animation: none !important;
         scroll-behavior: auto !important;
+    }
+    .sf-welcome-dialog * {
+        animation: none !important;
     }
 }

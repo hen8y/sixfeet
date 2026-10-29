@@ -1,6 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import type { SupportContact } from './country';
-import type { Detail, LineArtName } from './public';
+import type { GuideArticle } from './guides';
+import type { LineArtName } from './public';
 
 export type Service = {
     title: string;
@@ -25,7 +26,7 @@ export type Review = {
     place: string;
 };
 
-export type Guide = Detail & { summary: string; art: LineArtName };
+export type Guide = GuideArticle & { art: LineArtName };
 
 export type SupportDesk = {
     title: string;

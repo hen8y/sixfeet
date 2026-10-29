@@ -1,4 +1,4 @@
-import { fundraising, home, repatriation } from '@/routes';
+import { fundraising, guides, home, repatriation } from '@/routes';
 import type { PublicNavLink, PublicPageName } from '@/types';
 
 export const publicRootId = 'sf-home';
@@ -19,7 +19,11 @@ export function publicNavLinks(current: PublicPageName): PublicNavLink[] {
             label: 'Repatriation',
             current: current === 'repatriation',
         },
-        { href: `${base}#sf-guides`, label: 'Help & advice' },
+        {
+            href: guides.url(),
+            label: 'Help & advice',
+            current: current === 'guides',
+        },
         { href: `${base}#sf-providers`, label: 'For providers' },
     ];
 }

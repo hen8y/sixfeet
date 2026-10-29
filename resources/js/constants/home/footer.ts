@@ -1,5 +1,5 @@
 import { services } from '@/constants/home/services';
-import { fundraising, repatriation } from '@/routes';
+import { fundraising, guides as guidesPage, repatriation } from '@/routes';
 import type { AccountLink, FooterColumn, Guide } from '@/types';
 
 export function footerColumnsFor({
@@ -45,6 +45,7 @@ export function footerColumnsFor({
                     label: guide.title,
                     onClick: () => onOpenGuide(guide),
                 })),
+                { label: 'All guides', href: guidesPage.url() },
                 { label: 'Questions families ask', href: '#sf-faq' },
             ],
         },

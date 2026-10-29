@@ -1,6 +1,8 @@
+import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
-import { LineArt } from '@/components/public/line-art';
+import { GuideList } from '@/components/public/guide-list';
 import { useMarket } from '@/hooks/use-market';
+import { guides as guidesPage } from '@/routes';
 import type { Guide } from '@/types';
 
 export function GuidesSection({
@@ -29,24 +31,11 @@ export function GuidesSection({
                     Plain guidance for the first days, written for families in{' '}
                     {country.name} and abroad.
                 </p>
+                <Link className="sf-small-link" href={guidesPage.url()}>
+                    Read all guides <ArrowRight aria-hidden="true" />
+                </Link>
             </div>
-            <ul className="sf-guide-list">
-                {guides.map((guide) => (
-                    <li key={guide.title}>
-                        <button
-                            type="button"
-                            onClick={() => onOpenGuide(guide)}
-                        >
-                            <LineArt name={guide.art} />
-                            <span>
-                                <strong>{guide.title}</strong>
-                                <span>{guide.summary}</span>
-                            </span>
-                            <ArrowRight aria-hidden="true" />
-                        </button>
-                    </li>
-                ))}
-            </ul>
+            <GuideList guides={guides} onOpenGuide={onOpenGuide} />
         </section>
     );
 }

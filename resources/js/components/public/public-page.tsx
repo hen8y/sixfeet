@@ -3,8 +3,10 @@ import { DetailDialog } from '@/components/public/detail-dialog';
 import { PublicFooter } from '@/components/public/public-footer';
 import { PublicHead } from '@/components/public/public-head';
 import { PublicHeader } from '@/components/public/public-header';
+import { WelcomeDialog } from '@/components/public/welcome-dialog';
 import { publicNavLinks, publicRootId } from '@/constants/public/navigation';
 import { usePublicPage } from '@/hooks/use-public-page';
+import { useWelcomePrompt } from '@/hooks/use-welcome-prompt';
 import { home } from '@/routes';
 import type {
     Detail,
@@ -42,6 +44,11 @@ export function PublicPage({
 }) {
     const homeHref = page === 'home' ? '#sf-start' : home.url();
 
+    const welcome = useWelcomePrompt({
+        eligible: page !== 'guides',
+        paused: detail !== null,
+    });
+
     usePublicPage(publicRootId);
 
     return (
@@ -66,6 +73,7 @@ export function PublicPage({
                 />
                 {afterFooter}
                 <DetailDialog detail={detail} onClose={onDetailClose} />
+                <WelcomeDialog open={welcome.open} onClose={welcome.dismiss} />
             </div>
         </>
     );

@@ -79,10 +79,7 @@ export default function Repatriation() {
             />
             <DocumentsSection />
             <CostsSection />
-            <FaqSection
-                title="Questions about repatriation"
-                faqs={faqs}
-            />
+            <FaqSection title="Questions about repatriation" faqs={faqs} />
             <HelpBand
                 icon={Plane}
                 title="Someone has died far from home?"

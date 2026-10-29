@@ -1,6 +1,7 @@
 export type * from './auth';
 export type * from './country';
 export type * from './fundraising';
+export type * from './guides';
 export type * from './home';
 export type * from './navigation';
 export type * from './public';
