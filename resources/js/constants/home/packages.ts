@@ -1,6 +1,24 @@
 import type { ServicePackage } from '@/types';
 
 // fromPrice is in minor units per country code; null until providers confirm a rate.
+export const basicPackage: ServicePackage = {
+    title: 'Basic Package',
+    tier: 'A little of everything',
+    fromPrice: { NG: null, IE: null },
+    description:
+        'Every part of the arrangement in its simplest form, at one price. A good place to start when you don’t yet know what you’ll need.',
+    features: [
+        'Your bereavement dashboard',
+        'Mortuary booking',
+        'A simple coffin',
+        'Hearse transport',
+        'Simple flowers and ceremony support',
+        'Repatriation guidance',
+        'A digital memorial',
+        'Support by phone or WhatsApp',
+    ],
+};
+
 export const packages: ServicePackage[] = [
     {
         title: 'Essential',

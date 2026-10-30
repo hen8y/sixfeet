@@ -2,13 +2,11 @@ import { ArrowRight, HeartHandshake } from 'lucide-react';
 import { useState } from 'react';
 import { FundFlowSection } from '@/components/fundraising/fund-flow-section';
 import { FundraisingHeroSection } from '@/components/fundraising/fundraising-hero-section';
-import { AssuranceBar } from '@/components/public/assurance-bar';
 import { FaqSection } from '@/components/public/faq-section';
 import { FeatureSection } from '@/components/public/feature-section';
 import { HelpBand } from '@/components/public/help-band';
 import { PublicPage } from '@/components/public/public-page';
 import { StepsSection } from '@/components/public/steps-section';
-import { assurances } from '@/constants/fundraising/assurances';
 import { exampleFundraisers } from '@/constants/fundraising/example-fundraisers';
 import { faqsFor } from '@/constants/fundraising/faqs';
 import { featuresFor } from '@/constants/fundraising/features';
@@ -49,10 +47,6 @@ export default function Fundraising() {
             detail={detail}
             onDetailClose={() => setDetail(null)}
         >
-            <AssuranceBar
-                label="How Six Feet fundraising works"
-                assurances={assurances}
-            />
             <FundraisingHeroSection
                 country={country}
                 example={example}

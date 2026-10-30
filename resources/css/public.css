@@ -149,7 +149,9 @@ html.lenis {
         .sf-help-band,
         .sf-footer
     ),
-#sf-home .sf-service-card:first-child {
+#sf-home
+    .sf-service-grid:not([data-layout='grid'])
+    .sf-service-card:first-child {
     --sf-focus: var(--sf-on-dark-muted);
     --sf-ring: color-mix(in oklab, var(--sf-on-dark) 30%, transparent);
 }
@@ -645,69 +647,22 @@ html.lenis {
     color: currentColor;
 }
 
-/* -------------------------------------------------------- Assurance */
-
-/* Three promises in one quiet band, separated by hairlines. */
-#sf-home .sf-assurance {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: 0;
-    padding: 18px var(--sf-inline);
-    border-bottom: 1px solid var(--sf-line);
-    background: var(--sf-warm);
-    list-style: none;
-}
-#sf-home .sf-assurance li {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    min-width: 0;
-    padding: 2px clamp(12px, 2vw, 28px);
-}
-#sf-home .sf-assurance li + li {
-    border-left: 1px solid var(--sf-line);
-}
-#sf-home .sf-assurance svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 1.6;
-    color: var(--sf-gold-dark);
-}
-#sf-home .sf-assurance strong {
-    display: block;
-    color: var(--sf-ink);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.35;
-    white-space: nowrap;
-}
-#sf-home .sf-assurance-detail {
-    display: block;
-    color: var(--sf-sub);
-    font-size: 13px;
-    line-height: 1.4;
-}
-#sf-home .sf-assurance .sf-short {
-    display: none;
-}
-
 /* ------------------------------------------------------------ Hero */
 
 /* The hero fills the rest of the first screen. The offset is the height of the
-   top bar, header and assurance band above it at each breakpoint.
+   top bar and header above it at each breakpoint.
    A softly blurred funeral hall photo sits behind it under a thin charcoal layer, so the copy is light. */
 #sf-home .sf-hero {
-    --sf-hero-offset: 196px;
+    --sf-hero-offset: 118px;
     position: relative;
     isolation: isolate;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
-    align-content: center;
-    align-items: center;
-    min-height: clamp(680px, calc(100svh - var(--sf-hero-offset)), 1000px);
-    gap: clamp(48px, 6vw, 96px);
-    padding: clamp(56px, 8vw, 112px) var(--sf-inline);
+    grid-template-columns: minmax(0, 1fr);
+    /* Anchored low so changing service never moves the tabs under the cursor. */
+    align-content: end;
+    min-height: clamp(620px, calc(100svh - var(--sf-hero-offset)), 860px);
+    gap: clamp(32px, 4vw, 48px);
+    padding: clamp(48px, 6vw, 80px) var(--sf-inline) clamp(32px, 4vw, 56px);
     background: var(--sf-ink);
     color: var(--sf-on-dark);
 }
@@ -797,7 +752,7 @@ html.lenis {
     font-style: normal;
 }
 #sf-home .sf-hero-copy > p {
-    max-width: 520px;
+    max-width: 620px;
     color: var(--sf-on-dark);
     font-size: clamp(15px, 0.9rem + 0.2vw, 17px);
     line-height: 1.85;
@@ -808,24 +763,6 @@ html.lenis {
     align-items: center;
     gap: 12px;
     margin-top: 28px;
-}
-#sf-home .sf-hero-notes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 22px;
-    margin-top: 26px;
-    color: var(--sf-on-dark);
-    font-size: 13px;
-}
-#sf-home .sf-hero-notes span {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-#sf-home .sf-hero-notes svg {
-    width: 14px;
-    height: 14px;
-    color: var(--sf-on-dark);
 }
 #sf-home .sf-hero-actions .sf-outline {
     border: 1px solid rgb(255 255 255 / 0.5);
@@ -908,7 +845,6 @@ html.lenis {
     container-type: inline-size;
     color: var(--sf-ink);
     margin: 0;
-    padding: clamp(22px, 2.4vw, 30px) clamp(20px, 2.4vw, 30px) 0;
     border: 1px solid var(--sf-line);
     border-radius: var(--sf-radius-lg);
     background: var(--sf-paper);
@@ -916,20 +852,59 @@ html.lenis {
         0 1px 2px rgb(41 44 40 / 0.04),
         0 24px 56px -28px rgb(74 62 39 / 0.3);
 }
-#sf-home .sf-search-heading {
-    margin-bottom: 28px;
+#sf-home .sf-find-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
-#sf-home .sf-search-heading h2 {
-    font-family: var(--sf-serif);
-    font-size: clamp(26px, 1.2rem + 0.8vw, 31px);
-    font-weight: 400;
-    line-height: 1.2;
+/* Hairlines are the strip showing through the gaps; the active tab opens into the form. */
+#sf-home .sf-service-tabs {
+    display: flex;
+    gap: 1px;
+    padding-bottom: 1px;
+    overflow: hidden;
+    border-radius: var(--sf-radius-lg) var(--sf-radius-lg) 0 0;
+    background: var(--sf-line);
 }
-#sf-home .sf-search-heading > span {
-    display: block;
-    margin-top: 4px;
+#sf-home .sf-service-tab {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 0;
+    min-height: 56px;
+    padding: 12px 10px;
+    background: var(--sf-warm);
     color: var(--sf-sub);
     font-size: 14px;
+    font-weight: 500;
+    line-height: 1.25;
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
+#sf-home .sf-service-tab:hover {
+    background: var(--sf-soft);
+    color: var(--sf-ink);
+}
+#sf-home .sf-service-tab[aria-pressed='true'] {
+    margin-bottom: -1px;
+    background: var(--sf-paper);
+    color: var(--sf-ink);
+}
+#sf-home .sf-service-tab:focus-visible {
+    outline: 2px solid var(--sf-focus);
+    outline-offset: -4px;
+}
+#sf-home .sf-service-tab svg {
+    flex: none;
+    width: 17px;
+    height: 17px;
+    color: currentColor;
 }
 #sf-home form {
     display: grid;
@@ -942,6 +917,111 @@ html.lenis {
         grid-template-columns: 1fr 1fr;
         align-items: start;
     }
+}
+#sf-home .sf-find form {
+    grid-template-columns: minmax(0, 1fr);
+    padding: clamp(20px, 2.4vw, 28px);
+}
+#sf-home .sf-service-picker {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+#sf-home .sf-service-picker legend {
+    margin-bottom: 8px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+#sf-home .sf-service-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+#sf-home .sf-service-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 64px;
+    padding: 10px 40px 10px 10px;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--sf-radius);
+    background: #fffdf8;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s,
+        box-shadow 0.15s;
+}
+#sf-home .sf-service-option:hover {
+    border-color: var(--sf-control-hover);
+}
+#sf-home .sf-service-option:has(:focus-visible) {
+    border-color: var(--sf-focus);
+    box-shadow: 0 0 0 3px var(--sf-ring);
+}
+#sf-home .sf-service-option:has(:checked) {
+    border-color: var(--sf-action);
+    box-shadow: inset 0 0 0 1px var(--sf-action);
+}
+/* The whole tile is the control; the real checkbox stays for keyboards and screen readers. */
+#sf-home .sf-service-option input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+#sf-home .sf-service-option-icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: var(--sf-soft);
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
+#sf-home .sf-service-option:has(:checked) .sf-service-option-icon {
+    background: var(--sf-action);
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-service-option-icon svg {
+    width: 20px;
+    height: 20px;
+    color: currentColor;
+}
+#sf-home .sf-service-option-tick {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--sf-control-border);
+    border-radius: 50%;
+    color: transparent;
+    transform: translateY(-50%);
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+#sf-home .sf-service-option:has(:checked) .sf-service-option-tick {
+    border-color: var(--sf-action);
+    background: var(--sf-action);
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-service-option-tick svg {
+    width: 13px;
+    height: 13px;
+    color: currentColor;
 }
 #sf-home form > .sf-primary {
     grid-column: 1 / -1;
@@ -957,7 +1037,6 @@ html.lenis {
     font-size: 14px;
     font-weight: 500;
 }
-#sf-home .sf-select,
 #sf-home .sf-control {
     border: 1px solid var(--sf-control-border);
     border-radius: var(--sf-radius);
@@ -967,31 +1046,9 @@ html.lenis {
         border-color 0.15s,
         box-shadow 0.15s;
 }
-#sf-home .sf-select:hover,
 #sf-home .sf-control:hover {
     border-color: var(--sf-control-hover);
 }
-#sf-home .sf-select {
-    width: 100%;
-    height: auto;
-    min-height: 52px;
-    padding: 12px 14px;
-    font-size: 16px;
-    box-shadow: none;
-}
-#sf-home .sf-select [data-slot='select-value'] {
-    gap: 10px;
-    min-width: 0;
-    overflow: hidden;
-    text-align: left;
-}
-#sf-home .sf-option-label {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-#sf-home .sf-select svg,
 #sf-home .sf-control svg {
     width: 18px;
     height: 18px;
@@ -1121,13 +1178,67 @@ html.lenis {
     text-align: right;
 }
 
+/* Wide: choices, place and action share one line, so the card keeps its height. */
+@container (min-width: 820px) {
+    #sf-home .sf-find form {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+    }
+    #sf-home .sf-service-picker {
+        grid-column: 1 / -1;
+    }
+    #sf-home .sf-find form > .sf-primary {
+        grid-column: auto;
+        width: auto;
+        min-width: 220px;
+        margin-top: 29px;
+    }
+    #sf-home .sf-service-options {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+/* Narrow: labels sit under their icons, then the tabs fold into two rows. */
+@container (max-width: 920px) {
+    #sf-home .sf-service-tab {
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 6px;
+        font-size: 13px;
+    }
+}
+@container (max-width: 520px) {
+    #sf-home .sf-service-tabs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    #sf-home .sf-service-tab {
+        padding-inline: 2px;
+        font-size: 12px;
+    }
+    /* Long names like "International repatriation" need the tile's full width. */
+    #sf-home .sf-service-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px;
+    }
+    #sf-home .sf-service-option-icon {
+        width: 36px;
+        height: 36px;
+    }
+    #sf-home .sf-service-option-tick {
+        top: 18px;
+        right: 10px;
+        transform: none;
+    }
+}
 #sf-home .sf-find-foot {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin: 28px calc(-1 * clamp(20px, 2.4vw, 30px)) 0;
-    padding: 15px 20px;
+    margin: 0;
+    padding: 12px 20px;
     border-top: 1px solid var(--sf-line);
     border-radius: 0 0 var(--sf-radius-lg) var(--sf-radius-lg);
     background: var(--sf-warm);
@@ -1174,10 +1285,84 @@ html.lenis {
 #sf-home .sf-services {
     background: var(--sf-warm);
 }
+/* The one offer that spans every service, so it leads the section. */
+#sf-home .sf-basic-package {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+    margin-bottom: 20px;
+    padding: clamp(24px, 3.4vw, 44px);
+    border-radius: var(--sf-radius-lg);
+    background: var(--sf-ink);
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-basic-package .sf-package-tier {
+    color: var(--sf-on-dark-muted);
+}
+#sf-home .sf-basic-package h3 {
+    font-family: var(--sf-serif);
+    font-size: clamp(28px, 1.3rem + 1.2vw, 38px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+#sf-home .sf-basic-package-copy > p {
+    max-width: 48ch;
+    margin: 12px 0 20px;
+    color: var(--sf-on-dark-muted);
+    font-size: 15px;
+    line-height: 1.8;
+}
+#sf-home .sf-basic-package .sf-package-price {
+    margin: 0 0 22px;
+    background: rgb(255 255 255 / 0.07);
+}
+#sf-home .sf-basic-package .sf-package-price span {
+    color: var(--sf-on-dark-muted);
+}
+#sf-home .sf-basic-package .sf-package-price strong {
+    color: var(--sf-on-dark);
+}
+#sf-home .sf-basic-package ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 24px;
+    margin: 0;
+    padding: 0 0 0 clamp(24px, 4vw, 56px);
+    border-left: 1px solid var(--sf-dark-line);
+    list-style: none;
+    font-size: 15px;
+    line-height: 1.45;
+}
+#sf-home .sf-basic-package li {
+    display: flex;
+    gap: 10px;
+}
+#sf-home .sf-basic-package li svg {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    color: currentColor;
+}
 #sf-home .sf-service-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
+}
+#sf-home .sf-service-grid[data-layout='single'] {
+    grid-template-columns: minmax(0, 1fr);
+}
+#sf-home .sf-service-grid[data-layout='grid'] {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+#sf-home .sf-service-grid[data-layout='grid'] .sf-service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#sf-home .sf-service-grid[data-layout='grid'] .sf-service-icon {
+    margin-bottom: 18px;
 }
 #sf-home .sf-service-card {
     display: grid;
@@ -1229,6 +1414,40 @@ html.lenis {
     font-size: 15px;
     line-height: 1.8;
 }
+#sf-home .sf-service-card:has(.sf-service-highlights) {
+    grid-template-columns: auto minmax(0, 1.15fr) minmax(0, 1fr);
+    padding: clamp(24px, 3vw, 40px);
+}
+#sf-home
+    .sf-service-card:has(.sf-service-highlights)
+    :is(h3, p, .sf-card-link) {
+    grid-column: 2;
+}
+#sf-home .sf-service-highlights {
+    display: flex;
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    margin: 0;
+    padding: 0 0 0 clamp(24px, 3vw, 40px);
+    border-left: 1px solid var(--sf-dark-line);
+    list-style: none;
+    font-size: 15px;
+    line-height: 1.5;
+}
+#sf-home .sf-service-highlights li {
+    display: flex;
+    gap: 10px;
+}
+#sf-home .sf-service-highlights svg {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    color: currentColor;
+}
 #sf-home .sf-card-link {
     display: flex;
     align-items: center;
@@ -1242,18 +1461,27 @@ html.lenis {
     width: 16px;
     height: 16px;
 }
-#sf-home .sf-service-card:first-child {
+#sf-home
+    .sf-service-grid:not([data-layout='grid'])
+    .sf-service-card:first-child {
     border-color: var(--sf-ink);
     background: var(--sf-ink);
     color: var(--sf-on-dark);
 }
-#sf-home .sf-service-card:first-child p {
+#sf-home
+    .sf-service-grid:not([data-layout='grid'])
+    .sf-service-card:first-child
+    p {
     color: var(--sf-on-dark-muted);
 }
-#sf-home .sf-service-card:first-child .sf-service-icon {
+#sf-home
+    .sf-service-grid:not([data-layout='grid'])
+    .sf-service-card:first-child
+    .sf-service-icon {
     background: #464b41;
 }
 #sf-home
+    .sf-service-grid:not([data-layout='grid'])
     .sf-service-card:first-child
     :is(.sf-service-icon svg, .sf-card-link, .sf-card-link svg) {
     color: var(--sf-on-dark);
@@ -2749,6 +2977,13 @@ html.lenis {
     }
 }
 
+/* Room for the longest introduction, so the tabs hold still between services. */
+@media (min-width: 1181px) {
+    #sf-home .sf-hero-copy > p {
+        min-height: calc(3 * 1.85em);
+    }
+}
+
 /* Small laptops and landscape tablets: the planner moves under the introduction. */
 @media (max-width: 1180px) {
     #sf-home .sf-hero {
@@ -2769,22 +3004,35 @@ html.lenis {
         height: 100px;
         margin: 0 auto 20px;
     }
-    #sf-home .sf-hero-actions,
-    #sf-home .sf-hero-notes {
+    #sf-home .sf-hero-actions {
         justify-content: center;
     }
     #sf-home .sf-planner-wrap {
         width: 100%;
-        max-width: 680px;
         text-align: left;
     }
     #sf-home .sf-fund-hero {
         grid-template-columns: 1fr;
     }
-    #sf-home .sf-fund-example,
-    #sf-home .sf-topic-index {
+    /* The pitch stays left-aligned, so its actions line up with it. */
+    #sf-home .sf-fund-hero .sf-hero-actions {
+        justify-content: flex-start;
+    }
+    #sf-home .sf-fund-example {
         width: 100%;
         max-width: 520px;
+    }
+    /* The topic index spans the stacked hero, two topics to a row. */
+    #sf-home .sf-topic-index ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 24px;
+    }
+    #sf-home .sf-topic-index li + li {
+        border-top: 0;
+    }
+    #sf-home .sf-topic-index li:nth-child(n + 3) {
+        border-top: 1px solid var(--sf-line);
     }
     /* The city introduction moves above the country cards. */
     #sf-home .sf-city-browse {
@@ -2792,26 +3040,6 @@ html.lenis {
     }
     #sf-home .sf-city-intro p {
         max-width: 520px;
-    }
-}
-
-/* Narrow tablets: the band keeps its promises but drops the detail line. */
-@media (max-width: 880px) {
-    #sf-home .sf-hero {
-        --sf-hero-offset: 171px;
-    }
-    #sf-home .sf-assurance {
-        padding-block: 14px;
-    }
-    #sf-home .sf-assurance li {
-        gap: 10px;
-    }
-    #sf-home .sf-assurance svg {
-        width: 20px;
-        height: 20px;
-    }
-    #sf-home .sf-assurance-detail {
-        display: none;
     }
 }
 
@@ -2947,8 +3175,14 @@ html.lenis {
 
 /* Small tablets and phones: a lean header and a left-aligned, full-width hero. */
 @media (max-width: 760px) {
+    #sf-home .sf-topic-index ul {
+        grid-template-columns: 1fr;
+    }
+    #sf-home .sf-topic-index li + li {
+        border-top: 1px solid var(--sf-line);
+    }
     #sf-home .sf-hero {
-        --sf-hero-offset: 118px;
+        --sf-hero-offset: 65px;
     }
     #sf-home .sf-top,
     #sf-home .sf-header-plan {
@@ -2973,12 +3207,25 @@ html.lenis {
     #sf-home .sf-hero-candle {
         margin-left: 0;
     }
-    #sf-home .sf-hero-actions,
-    #sf-home .sf-hero-notes {
+    #sf-home .sf-hero-actions {
         justify-content: flex-start;
     }
     #sf-home .sf-service-grid {
         grid-template-columns: 1fr;
+    }
+    #sf-home .sf-basic-package {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    #sf-home .sf-basic-package ul {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 22px 0 0;
+        border-top: 1px solid var(--sf-dark-line);
+        border-left: 0;
+    }
+    #sf-home .sf-service-highlights {
+        margin-bottom: 20px;
+        padding-left: 0;
+        border-left: 0;
     }
     #sf-home .sf-package-card {
         display: flex;
@@ -3064,32 +3311,8 @@ html.lenis {
         border-radius: 0;
         transform-origin: top center;
     }
-    #sf-home .sf-assurance {
-        padding: 12px var(--sf-gutter);
-    }
-    #sf-home .sf-assurance li {
-        gap: 6px;
-        padding-inline: 6px;
-    }
-    #sf-home .sf-assurance svg {
-        width: 16px;
-        height: 16px;
-    }
-    #sf-home .sf-assurance strong {
-        font-size: 12px;
-    }
-    #sf-home .sf-assurance .sf-long {
-        display: none;
-    }
-    #sf-home .sf-assurance .sf-short {
-        display: inline;
-    }
     #sf-home .sf-hero-actions > * {
         flex: 1 1 100%;
-    }
-    #sf-home .sf-hero-notes {
-        flex-direction: column;
-        gap: 6px;
     }
     #sf-home .sf-service-card {
         display: flex;

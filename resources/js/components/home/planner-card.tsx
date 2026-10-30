@@ -1,11 +1,14 @@
 import { ArrowRight, BadgeCheck } from 'lucide-react';
 import { CityField } from '@/components/home/city-field';
-import { ServiceField } from '@/components/home/service-field';
+import { CustomServicesField } from '@/components/home/custom-services-field';
+import { ServiceTabs } from '@/components/home/service-tabs';
+import { plannerCopyFor } from '@/constants/home/service-views';
 import { useMarket } from '@/hooks/use-market';
 import type { Planner } from '@/hooks/use-planner';
 
 export function PlannerCard({ planner }: { planner: Planner }) {
     const { country } = useMarket();
+    const copy = plannerCopyFor(planner.view);
 
     return (
         <section
@@ -13,15 +16,19 @@ export function PlannerCard({ planner }: { planner: Planner }) {
             ref={planner.section}
             aria-labelledby="sf-search-title"
         >
-            <div className="sf-search-heading">
-                <h2 id="sf-search-title">Begin planning</h2>
-                <span>Start with the essentials.</span>
-            </div>
+            <h2 className="sf-find-title" id="sf-search-title">
+                {copy.heading}
+            </h2>
+            <ServiceTabs view={planner.view} onChange={planner.changeView} />
             <form onSubmit={planner.submit} noValidate>
-                <ServiceField
-                    service={planner.service}
-                    onServiceChange={planner.setService}
-                />
+                {planner.view === 'custom' && (
+                    <CustomServicesField
+                        chosen={planner.customServices}
+                        onToggle={planner.toggleCustomService}
+                        fieldRef={planner.customPicker}
+                        error={planner.serviceError}
+                    />
+                )}
                 <CityField
                     city={planner.city}
                     onCityChange={planner.changeCity}
@@ -34,7 +41,7 @@ export function PlannerCard({ planner }: { planner: Planner }) {
                     type="submit"
                     ref={planner.submitButton}
                 >
-                    Find services <ArrowRight aria-hidden="true" />
+                    {copy.action} <ArrowRight aria-hidden="true" />
                 </button>
             </form>
             <p className="sf-find-foot">

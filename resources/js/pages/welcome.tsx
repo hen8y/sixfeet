@@ -9,12 +9,10 @@ import { ProvidersSection } from '@/components/home/providers-section';
 import { ReviewsSection } from '@/components/home/reviews-section';
 import { ServicesSection } from '@/components/home/services-section';
 import { SupportSection } from '@/components/home/support-section';
-import { AssuranceBar } from '@/components/public/assurance-bar';
 import { FaqSection } from '@/components/public/faq-section';
 import { HelpBand } from '@/components/public/help-band';
 import { PublicPage } from '@/components/public/public-page';
 import { StepsSection } from '@/components/public/steps-section';
-import { assurances } from '@/constants/home/assurances';
 import { faqsFor } from '@/constants/home/faqs';
 import { footerColumnsFor } from '@/constants/home/footer';
 import { guidesFor } from '@/constants/home/guides';
@@ -22,6 +20,7 @@ import {
     packageNotice,
     providerApplicationNotice,
 } from '@/constants/home/notices';
+import { basicPackage } from '@/constants/home/packages';
 import { packageService } from '@/constants/home/services';
 import { stepsFor } from '@/constants/home/steps';
 import { supportNotice } from '@/constants/public/notices';
@@ -80,18 +79,25 @@ export default function Welcome() {
                 />
             }
         >
-            <AssuranceBar
-                label="Why families use Six Feet"
-                assurances={assurances}
-            />
             <HeroSection planner={planner} onSupport={showSupport} />
             <ServicesSection
+                view={planner.view}
+                customServices={planner.customServices}
+                chosenServices={planner.chosenServices}
                 onSelectService={planner.selectService}
+                onExploreBasicPackage={() =>
+                    setDetail(packageNotice(basicPackage))
+                }
                 onBrowseCity={planner.browseCity}
                 onSearchOther={planner.focus}
             />
             <FamilyStorySection onSupport={showSupport} />
             <PackagesSection
+                collapsed={
+                    !planner.chosenServices.some(
+                        ({ id }) => id === packageService,
+                    )
+                }
                 onHelpChoose={() => planner.selectService(packageService)}
                 onExplore={(item) => setDetail(packageNotice(item))}
             />

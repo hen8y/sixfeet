@@ -1,6 +1,6 @@
 import { services } from '@/constants/home/services';
 import { fundraising, guides as guidesPage, repatriation } from '@/routes';
-import type { AccountLink, FooterColumn, Guide } from '@/types';
+import type { AccountLink, FooterColumn, Guide, ServiceId } from '@/types';
 
 export function footerColumnsFor({
     account,
@@ -13,7 +13,7 @@ export function footerColumnsFor({
 }: {
     account: AccountLink;
     guides: Guide[];
-    onSelectService: (title: string) => void;
+    onSelectService: (id: ServiceId) => void;
     onStartPlanning: () => void;
     onOpenGuide: (guide: Guide) => void;
     onSupport: () => void;
@@ -22,9 +22,9 @@ export function footerColumnsFor({
     return [
         {
             title: 'Services',
-            items: services.map(({ title, heading }) => ({
+            items: services.map(({ id, title, heading }) => ({
                 label: heading ?? title,
-                onClick: () => onSelectService(title),
+                onClick: () => onSelectService(id),
             })),
         },
         {

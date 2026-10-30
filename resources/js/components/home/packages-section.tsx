@@ -4,9 +4,11 @@ import { packages } from '@/constants/home/packages';
 import type { ServicePackage } from '@/types';
 
 export function PackagesSection({
+    collapsed,
     onHelpChoose,
     onExplore,
 }: {
+    collapsed: boolean;
     onHelpChoose: () => void;
     onExplore: (item: ServicePackage) => void;
 }) {
@@ -31,15 +33,17 @@ export function PackagesSection({
                     Help me choose a package <ArrowUpRight aria-hidden="true" />
                 </button>
             </div>
-            <div className="sf-package-list">
-                {packages.map((item) => (
-                    <PackageCard
-                        key={item.title}
-                        item={item}
-                        onExplore={() => onExplore(item)}
-                    />
-                ))}
-            </div>
+            {!collapsed && (
+                <div className="sf-package-list">
+                    {packages.map((item) => (
+                        <PackageCard
+                            key={item.title}
+                            item={item}
+                            onExplore={() => onExplore(item)}
+                        />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

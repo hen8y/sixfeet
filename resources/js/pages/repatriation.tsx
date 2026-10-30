@@ -1,6 +1,5 @@
 import { ArrowUpRight, Plane } from 'lucide-react';
 import { useState } from 'react';
-import { AssuranceBar } from '@/components/public/assurance-bar';
 import { FaqSection } from '@/components/public/faq-section';
 import { FeatureSection } from '@/components/public/feature-section';
 import { HelpBand } from '@/components/public/help-band';
@@ -11,7 +10,6 @@ import { DirectionsSection } from '@/components/repatriation/directions-section'
 import { DocumentsSection } from '@/components/repatriation/documents-section';
 import { RepatriationHeroSection } from '@/components/repatriation/repatriation-hero-section';
 import { supportNotice } from '@/constants/public/notices';
-import { assurances } from '@/constants/repatriation/assurances';
 import { directionsFor } from '@/constants/repatriation/directions';
 import {
     exampleCases,
@@ -55,12 +53,7 @@ export default function Repatriation() {
             detail={detail}
             onDetailClose={() => setDetail(null)}
         >
-            <AssuranceBar
-                label="How Six Feet repatriation works"
-                assurances={assurances}
-            />
             <RepatriationHeroSection
-                country={country}
                 example={example}
                 milestones={milestonesFor(example)}
                 onRequestQuote={requestQuote}

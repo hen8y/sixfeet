@@ -1,5 +1,3 @@
-import type { LucideIcon } from 'lucide-react';
-
 export type Detail = { title: string; description: string; items?: string[] };
 
 export type FooterItem = { label: string; href?: string; onClick?: () => void };
@@ -25,13 +23,6 @@ export type LineArtName =
     | 'globe'
     | 'shield'
     | 'receipt';
-
-export type Assurance = {
-    title: string;
-    short: string;
-    detail: string;
-    icon: LucideIcon;
-};
 
 export type Step = { label: string; title: string; description: string };
 

@@ -3,11 +3,29 @@ import type { SupportContact } from './country';
 import type { GuideArticle } from './guides';
 import type { LineArtName } from './public';
 
+export type ServiceId =
+    | 'dashboard'
+    | 'mortuary'
+    | 'coffins'
+    | 'transport'
+    | 'flowers'
+    | 'packages'
+    | 'repatriation'
+    | 'memorials';
+
+export type BookableServiceId = Exclude<ServiceId, 'dashboard' | 'memorials'>;
+
+export type ServiceView = BookableServiceId | 'all' | 'custom';
+
 export type Service = {
+    id: ServiceId;
     title: string;
+    tab: string;
     heading?: string;
     description: string;
+    highlights: string[];
     action: string;
+    href?: string;
     icon: LucideIcon;
 };
 

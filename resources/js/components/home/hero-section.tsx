@@ -1,6 +1,7 @@
-import { ArrowRight, ArrowUpRight, Check } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { HeroCandle } from '@/components/home/hero-candle';
 import { PlannerCard } from '@/components/home/planner-card';
+import { heroCopyFor } from '@/constants/home/service-views';
 import { useMarket } from '@/hooks/use-market';
 import type { Planner } from '@/hooks/use-planner';
 
@@ -12,6 +13,7 @@ export function HeroSection({
     onSupport: () => void;
 }) {
     const { country } = useMarket();
+    const copy = heroCopyFor(planner.view, country);
 
     return (
         <section
@@ -34,16 +36,11 @@ export function HeroSection({
             <div className="sf-hero-copy">
                 <HeroCandle />
                 <h1 id="sf-hero-title">
-                    A thoughtful farewell,
+                    {copy.title}
                     <br />
-                    <em>from home or abroad.</em>
+                    <em>{copy.emphasis}</em>
                 </h1>
-                <p>
-                    Arrange a mortuary, a coffin, flowers and transport in{' '}
-                    {country.name}, whether you are close by or a flight away.
-                    Compare verified providers and see the price before you
-                    book.
-                </p>
+                <p>{copy.body}</p>
                 <div className="sf-hero-actions">
                     <a href="#sf-services" className="sf-primary sf-light">
                         Explore services <ArrowRight aria-hidden="true" />
@@ -55,15 +52,6 @@ export function HeroSection({
                     >
                         Or talk to our team <ArrowUpRight aria-hidden="true" />
                     </button>
-                </div>
-                <div className="sf-hero-notes">
-                    <span>
-                        <Check aria-hidden="true" /> No account needed to browse
-                    </span>
-                    <span>
-                        <Check aria-hidden="true" /> Prices in{' '}
-                        {country.currency.name}
-                    </span>
                 </div>
             </div>
             <div className="sf-planner-wrap">

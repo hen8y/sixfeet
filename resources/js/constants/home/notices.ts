@@ -1,5 +1,5 @@
 import { countryNames } from '@/lib/format';
-import type { Country, Detail, ServicePackage } from '@/types';
+import type { Country, Detail, Service, ServicePackage } from '@/types';
 
 export function searchNotice(
     service: string,
@@ -14,6 +14,18 @@ export function searchNotice(
             'Provider profiles and service details',
             'Booking updates in your family space',
         ],
+    };
+}
+
+export function serviceNotice({
+    title,
+    description,
+    highlights,
+}: Service): Detail {
+    return {
+        title,
+        description: `${description} Coming soon.`,
+        items: highlights,
     };
 }
 

@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Check } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { TopicIndexCard } from '@/components/guides/topic-index-card';
 import type { Country, GuideTopic } from '@/types';
 
@@ -40,14 +40,6 @@ export function GuidesHeroSection({
                         Rather talk to someone?{' '}
                         <ArrowUpRight aria-hidden="true" />
                     </button>
-                </div>
-                <div className="sf-hero-notes">
-                    <span>
-                        <Check aria-hidden="true" /> Written for {country.name}
-                    </span>
-                    <span>
-                        <Check aria-hidden="true" /> Free, plain guidance
-                    </span>
                 </div>
             </div>
             <TopicIndexCard topics={topics} />

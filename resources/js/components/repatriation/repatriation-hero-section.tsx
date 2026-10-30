@@ -1,15 +1,13 @@
-import { ArrowRight, ArrowUpRight, Check } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { RouteCard } from '@/components/repatriation/route-card';
-import type { Country, ExampleCase, Milestone } from '@/types';
+import type { ExampleCase, Milestone } from '@/types';
 
 export function RepatriationHeroSection({
-    country,
     example,
     milestones,
     onRequestQuote,
     onSupport,
 }: {
-    country: Country;
     example: ExampleCase;
     milestones: Milestone[];
     onRequestQuote: () => void;
@@ -48,16 +46,6 @@ export function RepatriationHeroSection({
                         Someone has just died? Talk to us{' '}
                         <ArrowUpRight aria-hidden="true" />
                     </button>
-                </div>
-                <div className="sf-hero-notes">
-                    <span>
-                        <Check aria-hidden="true" /> Into and out of{' '}
-                        {country.name}
-                    </span>
-                    <span>
-                        <Check aria-hidden="true" /> Follow every step from
-                        abroad
-                    </span>
                 </div>
             </div>
             <RouteCard example={example} milestones={milestones} />
