@@ -20,7 +20,35 @@ Reuse the starter. Verify its behaviour before extending it. Two-factor support 
 
 Later: comparison and funeral estimator, gifts and subscriptions, and the mobile app. Vendor growth tools, additional languages and the UK launch are outside this roadmap. Keep basic browsing filters, visible prices and country configuration in the marketplace step.
 
-Before implementation, map every row in the 174-feature checklist to a step, Later, or an explicitly removed item. Preserve each feature ID, acceptance criterion, dependency and decision. This plan does not yet claim complete checklist coverage. Resolve ambiguities such as gift features linked to notices, repatriation packages offered before Step 4, and long-term group plans that depend on savings.
+Each row in the 174-feature checklist maps to exactly one phase below, to Later, or to the undecided list. This was checked against the spreadsheet on 31 October 2026. Preserve each feature ID, acceptance criterion, dependency and decision. Resolve ambiguities such as gift features linked to notices, repatriation packages offered before Step 4, and long-term group plans that depend on savings.
+
+## Delivery phases
+
+Each phase ends in something that can be demonstrated and reviewed before the next begins.
+
+| Phase | Step | Delivers                                                      | Checklist                                                       |
+| ----- | ---- | ------------------------------------------------------------- | --------------------------------------------------------------- |
+| 1     | 1    | Design system extracted from the homepage                     | F005, F006, F008                                                |
+| 2     | 1    | Key screens in code with sample data                          | None of its own: previews later phases                          |
+| 3     | 2    | Application foundation                                        | F001–F004, F009, F011–F015                                      |
+| 4     | 2    | Vendor onboarding and private documents                       | F022, F127–F129, F171                                           |
+| 5     | 2    | Catalogue and discovery                                       | F019–F021, F025, F027, F028, F031, F032, F036, F039, F131, F132 |
+| 6     | 2    | Bookings and orders, before payment                           | F023, F024, F035, F037, F038, F078, F130, F137, F150            |
+| 7     | 2    | Money: ledger, gateways, invoices                             | F029, F030, F134, F139–F146, F148                               |
+| 8     | 2    | Packages                                                      | F043–F053, F055–F057                                            |
+| 9     | 2    | Family, vendor and admin operations                           | F016, F017, F133, F138, F149, F151–F157                         |
+| 10    | 2    | Launch in Nigeria and Ireland                                 | F007, F018, F160–F168, F170, F172–F174                          |
+| 11    | 3    | Campaigns and donations                                       | F089, F090, F094, F095, F100, F104                              |
+| 12    | 3    | Trusted giving                                                | F091–F093, F096, F098, F099, F101–F103                          |
+| 13    | 4    | Repatriation cases                                            | F079–F081, F085, F086                                           |
+| 14    | 4    | Agent quotes and payment                                      | F054, F082–F084, F087, F088                                     |
+| 15    | 4    | Death notices                                                 | F112–F121, F123                                                 |
+| 16    | 4    | Memorials                                                     | F109–F111, F122, F125                                           |
+| 17    | 5    | Funeral savings                                               | F106, F107                                                      |
+| 18    | 5    | Using savings                                                 | F058, F105, F108                                                |
+| Later | —    | Comparison and estimator, gifts and subscriptions, mobile app | F033, F040–F042, F059–F077, F097                                |
+
+**Undecided:** reviews (F026) appear in Step 2 of this plan but under Later in the roadmap. These items are on neither the roadmap nor Later: F010, F034, F124, F126, F135, F136, F147, F158, F159, F169. None of the undecided items is a Must on the checklist.
 
 ## Family booking and navigation flow
 
@@ -61,16 +89,16 @@ Start savings partner selection immediately because it can progress while earlie
 
 ## Step 1 Design
 
-**Outcome:** approved family, vendor and admin journeys, with a reusable visual system. This step is design only.
+**Outcome:** approved family, vendor and admin journeys, with a reusable visual system. The built homepage is the design system, so screens are designed in code with sample data instead of wireframes.
 
-- Confirm the page inventory and country differences, using the supplied homepage reference when available.
+- Confirm the page inventory and country differences.
 - Use the six-stage family flow above to map navigation, service-specific bookings, tracking and optional aftercare destinations.
-- Wireframe public discovery, vendor profiles, shop, vehicle booking, packages, guest checkout and the family workspace.
-- Wireframe vendor application, verification, listings, availability, order fulfilment and earnings; admin verification, disputes, refunds and payouts.
-- Sketch crowdfunding, repatriation, notices, memorials and savings so shared navigation and account areas accommodate later steps.
+- Build screens for public discovery, vendor profiles, shop, vehicle booking, packages, guest checkout and the family workspace.
+- Build screens for vendor application, verification, listings, availability, order fulfilment and earnings; admin verification, disputes, refunds and payouts.
+- Rough out crowdfunding, repatriation, notices, memorials and savings so shared navigation and account areas accommodate later steps.
 - Define typography, colour, spacing, forms, cards, status trackers, errors, empty states and accessible mobile behaviour. Include loading and payment failure states.
 
-**Complete when:** the business approves the design direction, wireframes and design system. Key journeys work at a 360px viewport, help remains easy to reach, and an enquiry takes no more than three screens. Record deferred decisions before moving on.
+**Complete when:** the business approves the design system and screens in a browser. Key journeys work at a 360px viewport, help remains easy to reach, and an enquiry takes no more than three screens. Record deferred decisions before moving on.
 
 ## Step 2 Local marketplace and packages
 
@@ -138,10 +166,9 @@ The handoff proposes ₦2,500,000 total: ₦500,000 after Step 1, ₦250,000 aft
 
 ## First work package
 
-1. Obtain the current product roadmap and homepage reference; reconcile them with the handoff and map the full feature checklist.
-2. Record the open business decisions, owners and delivery gates; start payment-provider and savings-partner confirmations through the business.
-3. Create the Step 1 page inventory and family/vendor/admin journey maps.
-4. Produce mobile wireframes and a design direction for business review.
-5. Turn approved designs into a component specification and a Step 2 backlog, ordered as above.
+1. Record the open business decisions, owners and delivery gates; start payment-provider and savings-partner confirmations through the business.
+2. Phase 1: extract the design system from the homepage and add the components it lacks.
+3. Phase 2: build the key family, vendor and admin screens with sample data for business review.
+4. Turn the approved screens into a Step 2 backlog, ordered as above.
 
-No application code or infrastructure changes are needed to complete this first design step.
+No infrastructure changes are needed to complete Step 1.
