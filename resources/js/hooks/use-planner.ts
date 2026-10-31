@@ -1,29 +1,19 @@
-import { useRemember } from '@inertiajs/react';
 import { useRef, useState, type FormEvent } from 'react';
-import { searchNotice, serviceNotice } from '@/constants/home/notices';
-import { isBookable, services } from '@/constants/home/services';
-import { searchLabelFor, servicesFor } from '@/constants/home/service-views';
+import { searchNotice } from '@/constants/home/notices';
+import { searchLabelFor } from '@/constants/home/service-views';
 import { useMarket } from '@/hooks/use-market';
+import { useServiceView } from '@/hooks/use-service-view';
 import { glideToElement } from '@/lib/smooth-scroll';
-import type { Detail, ServiceId, ServiceView } from '@/types';
+import type { Detail } from '@/types';
 
 export type Planner = ReturnType<typeof usePlanner>;
 
 export function usePlanner(onSearch: (detail: Detail) => void) {
     const { country, changeCountry } = useMarket();
-    const [view, setView] = useRemember<ServiceView>(
-        'all',
-        'home-service-view',
-    );
-    const [customServices, setCustomServices] = useRemember<ServiceId[]>(
-        [],
-        'home-chosen-services',
-    );
-    const [serviceError, setServiceError] = useState<string | null>(null);
+    const serviceView = useServiceView(onSearch, focus);
     const [city, setCity] = useState('');
     const [cityError, setCityError] = useState<string | null>(null);
     const section = useRef<HTMLElement>(null);
-    const customPicker = useRef<HTMLFieldSetElement>(null);
     const cityInput = useRef<HTMLInputElement>(null);
     const submitButton = useRef<HTMLButtonElement>(null);
 
@@ -36,45 +26,6 @@ export function usePlanner(onSearch: (detail: Detail) => void) {
     function focus() {
         glideToPlanner();
         cityInput.current?.focus({ preventScroll: true });
-    }
-
-    function changeView(next: ServiceView) {
-        setView(next);
-        setServiceError(null);
-    }
-
-    function toggleCustomService(id: ServiceId) {
-        setCustomServices(
-            customServices.includes(id)
-                ? customServices.filter((chosen) => chosen !== id)
-                : [...customServices, id],
-        );
-        setServiceError(null);
-    }
-
-    function selectService(id: ServiceId) {
-        if (view === 'custom') {
-            if (!customServices.includes(id)) {
-                toggleCustomService(id);
-            }
-
-            focus();
-
-            return;
-        }
-
-        if (!isBookable(id)) {
-            const service = services.find((item) => item.id === id);
-
-            if (service) {
-                onSearch(serviceNotice(service));
-            }
-
-            return;
-        }
-
-        changeView(id);
-        focus();
     }
 
     function changeCity(value: string) {
@@ -92,10 +43,7 @@ export function usePlanner(onSearch: (detail: Detail) => void) {
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        if (view === 'custom' && customServices.length === 0) {
-            setServiceError('Choose at least one service to continue.');
-            customPicker.current?.querySelector('input')?.focus();
-
+        if (!serviceView.confirmChoice()) {
             return;
         }
 
@@ -108,7 +56,7 @@ export function usePlanner(onSearch: (detail: Detail) => void) {
 
         onSearch(
             searchNotice(
-                searchLabelFor(view, customServices),
+                searchLabelFor(serviceView.view, serviceView.customServices),
                 city.trim(),
                 country,
             ),
@@ -130,13 +78,7 @@ export function usePlanner(onSearch: (detail: Detail) => void) {
     }
 
     return {
-        view,
-        changeView,
-        customServices,
-        toggleCustomService,
-        chosenServices: servicesFor(view, customServices),
-        serviceError,
-        customPicker,
+        ...serviceView,
         city,
         changeCity,
         resetCity,
@@ -145,7 +87,6 @@ export function usePlanner(onSearch: (detail: Detail) => void) {
         cityInput,
         submitButton,
         focus,
-        selectService,
         submit,
         browseCity,
     };

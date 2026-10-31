@@ -6,7 +6,7 @@ export const publicRootId = 'sf-home';
 export function publicNavLinks(current: PublicPageName): PublicNavLink[] {
     const base = current === 'home' ? '' : home.url();
 
-    return [
+    const links: PublicNavLink[] = [
         { href: `${base}#sf-services`, label: 'Services' },
         { href: `${base}#sf-packages`, label: 'Packages' },
         {
@@ -26,4 +26,13 @@ export function publicNavLinks(current: PublicPageName): PublicNavLink[] {
         },
         { href: `${base}#sf-providers`, label: 'For providers' },
     ];
+
+    if (current === 'services') {
+        return links.filter(
+            ({ label }) =>
+                !['Services', 'Packages', 'Repatriation'].includes(label),
+        );
+    }
+
+    return links;
 }

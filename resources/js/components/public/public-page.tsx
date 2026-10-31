@@ -22,6 +22,7 @@ export function PublicPage({
     action,
     onHelp,
     onCountryChange,
+    headerTabs,
     footerColumns,
     footerRef,
     detail,
@@ -35,6 +36,7 @@ export function PublicPage({
     action: PublicAction;
     onHelp: () => void;
     onCountryChange?: () => void;
+    headerTabs?: ReactNode;
     footerColumns: FooterColumn[];
     footerRef?: Ref<HTMLElement>;
     detail: Detail | null;
@@ -65,6 +67,7 @@ export function PublicPage({
                     action={action}
                     onHelp={onHelp}
                 />
+                {headerTabs}
                 <main id="main-content">{children}</main>
                 <PublicFooter
                     ref={footerRef}

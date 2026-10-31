@@ -6,4 +6,5 @@ export type * from './home';
 export type * from './navigation';
 export type * from './public';
 export type * from './repatriation';
+export type * from './services';
 export type * from './ui';

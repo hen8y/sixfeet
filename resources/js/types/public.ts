@@ -4,7 +4,12 @@ export type FooterItem = { label: string; href?: string; onClick?: () => void };
 
 export type FooterColumn = { title: string; items: FooterItem[] };
 
-export type PublicPageName = 'home' | 'fundraising' | 'repatriation' | 'guides';
+export type PublicPageName =
+    | 'home'
+    | 'fundraising'
+    | 'repatriation'
+    | 'guides'
+    | 'services';
 
 export type PublicNavLink = { href: string; label: string; current?: boolean };
 

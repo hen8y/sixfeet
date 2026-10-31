@@ -22,7 +22,7 @@ export function ServicesSection({
     onSelectService: (id: ServiceId) => void;
     onExploreBasicPackage: () => void;
     onBrowseCity: (countryCode: string, city: string) => void;
-    onSearchOther: () => void;
+    onSearchOther?: () => void;
 }) {
     const { country } = useMarket();
     const count = chosenServices.length;

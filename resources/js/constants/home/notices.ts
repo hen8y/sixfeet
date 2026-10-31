@@ -21,7 +21,7 @@ export function serviceNotice({
     title,
     description,
     highlights,
-}: Service): Detail {
+}: Pick<Service, 'title' | 'description' | 'highlights'>): Detail {
     return {
         title,
         description: `${description} Coming soon.`,

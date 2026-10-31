@@ -15,7 +15,8 @@ void createInertiaApp({
             case name === 'welcome' ||
                 name === 'fundraising' ||
                 name === 'repatriation' ||
-                name === 'guides':
+                name === 'guides' ||
+                name === 'services':
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;

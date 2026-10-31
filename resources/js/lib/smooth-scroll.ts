@@ -45,6 +45,10 @@ function glideTo(top: number) {
     });
 }
 
+export function glideToTop() {
+    glideTo(0);
+}
+
 export function glideToElement(
     element: HTMLElement,
     block: 'start' | 'center' = 'start',

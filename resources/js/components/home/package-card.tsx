@@ -12,7 +12,6 @@ export function PackageCard({
 }) {
     return (
         <article className="sf-package-card">
-            <span className="sf-package-tier">{item.tier}</span>
             <h3>{item.title}</h3>
             <p>{item.description}</p>
             <PackagePrice item={item} />

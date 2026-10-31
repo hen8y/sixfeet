@@ -8,7 +8,7 @@ export function CityBrowse({
     onSearchOther,
 }: {
     onBrowseCity: (countryCode: string, city: string) => void;
-    onSearchOther: () => void;
+    onSearchOther?: () => void;
 }) {
     const { country, countries } = useMarket();
     const browseCountries = [
@@ -29,14 +29,16 @@ export function CityBrowse({
                     Pick a city to see verified providers nearby. Arranging from
                     abroad? Choose the city where the funeral will be.
                 </p>
-                <button
-                    className="sf-small-link"
-                    type="button"
-                    onClick={onSearchOther}
-                >
-                    Search another city or area{' '}
-                    <ArrowUpRight aria-hidden="true" />
-                </button>
+                {onSearchOther && (
+                    <button
+                        className="sf-small-link"
+                        type="button"
+                        onClick={onSearchOther}
+                    >
+                        Search another city or area{' '}
+                        <ArrowUpRight aria-hidden="true" />
+                    </button>
+                )}
             </div>
             <div
                 className="sf-city-cards"

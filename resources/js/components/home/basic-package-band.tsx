@@ -7,7 +7,6 @@ export function BasicPackageBand({ onExplore }: { onExplore: () => void }) {
     return (
         <article className="sf-basic-package">
             <div className="sf-basic-package-copy">
-                <span className="sf-package-tier">{basicPackage.tier}</span>
                 <h3>{basicPackage.title}</h3>
                 <p>{basicPackage.description}</p>
                 <PackagePrice item={basicPackage} />

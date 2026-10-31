@@ -8,7 +8,7 @@ export function ServiceCard({
     detailed,
     onSelect,
 }: {
-    service: Service;
+    service: Omit<Service, 'id' | 'tab'>;
     detailed: boolean;
     onSelect: () => void;
 }) {
